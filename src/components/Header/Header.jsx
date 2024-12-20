@@ -2,6 +2,8 @@ import search_icon from "../../assets/icons/search-icon.svg";
 import world_icon from "../../assets/icons/world-icon.svg";
 import menu_icon from "../../assets/icons/menu-icon.svg";
 import { useLocation } from "react-router-dom";
+import airbnb_logo_1 from "../../assets/logo/air-bnb-logo-3.png";
+import airbnb_logo_2 from "../../assets/logo/air-bnb-logo-2.png";
 
 function Header() {
   const path = useLocation();
@@ -14,12 +16,12 @@ function Header() {
         <div className="lg:w-[22%] flex items-center">
           <img
             className="h-8 hidden lg:block"
-            src="./src/assets/logo/air-bnb-logo-3.png"
+            src={airbnb_logo_1}
             alt="air bnb logo"
           />
           <img
             className="h-10 block lg:hidden"
-            src="./src/assets/logo/air-bnb-logo-2.png"
+            src={airbnb_logo_2}
             alt="air bnb logo"
           />
         </div>
