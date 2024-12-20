@@ -7,7 +7,7 @@ import { properties } from "../../data/properties";
 const CardSection = () => {
 
   return (
-    <div className="px-10 grid grid-cols-4 gap-6 mt-2">
+    <div className="sm:px-10 px-6 grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 mt-2">
       {properties.map((property) => (
         <Card key={property.id} {...property} />
       ))}

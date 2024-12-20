@@ -56,8 +56,8 @@ function Navbar() {
 
   return (
     <>
-      <nav className="flex items-center justify-between px-10 py-4 w-full">
-        <div className="relative w-[70%]">
+      <nav className="flex items-center justify-between py-4 w-full sticky top-[83px] z-20 bg-white">
+        <div className="relative xl:w-[70%] lg:w-[62%] sm:w-[50%] w-[100%]">
           <div
             ref={scrollContainerRef}
             style={{ scrollbarWidth: "none" }}
@@ -76,7 +76,13 @@ function Navbar() {
                 }`}
               >
                 <img className="w-6 h-6" src={category.icon} alt="icon" />
-                <span className={`font-semibold ${category.label.split(" ").length > 1 ? "" : "mx-[10px]" }`}>{category.label}</span>
+                <span
+                  className={`font-semibold ${
+                    category.label.split(" ").length > 1 ? "" : "mx-[10px]"
+                  }`}
+                >
+                  {category.label}
+                </span>
               </button>
             ))}
           </div>
@@ -85,28 +91,32 @@ function Navbar() {
             <ArrowButton
               onClickHandler={scrollLeft}
               direction="prev"
-              style={"left-0 bg-white border-2 border-gray-300 hover:scale-[1.05]  hover:shadow-lg"}
+              style={
+                "left-0 bg-white border-2 hidden sm:flex border-gray-300 hover:scale-[1.05]  hover:shadow-lg"
+              }
             />
           )}
           {canScrollRight && (
             <ArrowButton
               onClickHandler={scrollRight}
               direction="next"
-              style={"right-0 bg-white border-2 border-gray-300 hover:scale-[1.05] hover:shadow-lg"}
+              style={
+                "right-0 bg-white border-2 hidden sm:flex border-gray-300 hover:scale-[1.05] hover:shadow-lg"
+              }
             />
           )}
         </div>
 
-        <div className="flex gap-3 w-[30%] justify-end text-sm">
-          <button className="px-4 py-3 border-[1px] border-gray-200 rounded-xl hover:border-gray-600 hover:bg-gray-100 duration-100 flex gap-2 items-center">
+        <div className="sm:flex sm:gap-3 hidden xl:w-[30%] lg:w-[38%] sm:w-[50%] justify-end text-sm">
+          <button className="lg:px-4 px-3 py-3 border-[1px] border-gray-200 rounded-xl hover:border-gray-600 hover:bg-gray-100 duration-100 flex gap-2 items-center">
             <img className="h-4 w-4" src={filter_icon} alt="filter_icon" />
             <span>Filters</span>
           </button>
-          <button className="px-4 py-3 border-[1px] border-gray-200 rounded-xl hover:border-gray-600 hover:bg-gray-100 duration-100 flex items-center gap-2">
+          <button className="lg:px-4 px-3 py-3 border-[1px] border-gray-200 rounded-xl hover:border-gray-600 hover:bg-gray-100 duration-100 flex items-center gap-2">
             <span>Display total before taxes</span>
-            <label className="inline-flex items-center cursor-pointer">
+            <label className="inline-flex items-center cursor-pointer w-9">
               <input type="checkbox" value="" className="sr-only peer" />
-              <div className="relative w-11 h-6 bg-gray-400 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+              <div className="relative w-9 h-5 bg-gray-400 rounded-full peer peer-checked:after:translate-x-4 peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></div>
             </label>
           </button>
         </div>

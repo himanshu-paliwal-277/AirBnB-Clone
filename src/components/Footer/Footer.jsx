@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import arrowIcon from "../../assets/icons/arrow.svg";
 import worldIcon from "../../assets/icons/world-icon.svg";
 import facebookIcon from "../../assets/icons/facebook-icon.svg";
@@ -77,6 +77,20 @@ function Footer() {
   const [activeTab, setActiveTab] = useState(1);
   const path = useLocation();
 
+  const [isLgScreen, setIsLgScreen] = useState(false);
+
+  // Check if the screen size is 'lg'
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsLgScreen(window.innerWidth >= 768); // lg breakpoint (1024px)
+    };
+
+    checkScreenSize(); // Initial check
+    window.addEventListener("resize", checkScreenSize); // Update on resize
+
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
+
   // Helper function for tab classes
   const getTabClasses = (index) =>
     `py-2 mx-2 ${
@@ -88,18 +102,24 @@ function Footer() {
   return (
     <footer className="bg-[#f7f7f7]">
       {/* Inspiration Section */}
-      <div className={`border-b border-gray-300 ${path.pathname === "/listing-details" ? "px-[72px]" : "px-10"} py-10`}>
+      <div
+        className={`border-b border-gray-300 ${
+          path.pathname === "/" ? "sm:px-10 px-6" : "px-[72px]"
+        } py-10`}
+      >
         <h1 className="mb-4 text-2xl font-semibold">
           Inspiration for future getaways
         </h1>
 
         {/* Tabs */}
-        <div className="flex border-b border-gray-300">
+        <div className="flex border-b border-gray-300 w-full overflow-x-auto lg:overflow-x-hidden" style={{scrollbarWidth: "none"}}>
           {tabLabels.map((label, index) => (
             <button
               key={index}
               onClick={() => setActiveTab(index + 1)}
-              className={getTabClasses(index + 1)}
+              className={`px-4 py-2 whitespace-nowrap ${getTabClasses(
+                index + 1
+              )}`}
             >
               {label}
             </button>
@@ -107,32 +127,45 @@ function Footer() {
         </div>
 
         {/* Popular Destinations */}
-        <div className="grid grid-cols-6 gap-6 pt-8">
-          {popularDestinations.map((destination, index) => (
+        <div className="grid xl:grid-cols-6 lg:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-6 pt-8">
+          {(isLgScreen
+            ? popularDestinations.slice(0, 11)
+            : popularDestinations
+          ).map((destination, index) => (
             <div key={index} className="flex flex-col cursor-pointer">
-              <p className="font-semibold opacity-80 " style={{lineHeight: "1"}}>{destination.location}</p>
+              <p
+                className="font-semibold opacity-80"
+                style={{ lineHeight: "1" }}
+              >
+                {destination.location}
+              </p>
               <p className="text-gray-500">{destination.type}</p>
             </div>
           ))}
           <div className="flex items-center gap-2">
             <button className="hover:underline font-semibold">Show more</button>
-            <img src={arrowIcon} className="w-3 h-3 rotate-90" alt="arrow icon" />
+            <img
+              src={arrowIcon}
+              className="w-3 h-3 rotate-90"
+              alt="arrow icon"
+            />
           </div>
         </div>
       </div>
 
       {/* Footer Links Section */}
-      <div className={`${path.pathname === "/listing-details" ? "px-[72px]" : "px-10"}`}>
-        <div className="flex border-b border-gray-300">
+      <div
+        className={`${
+          path.pathname === "/" ? "sm:px-10 px-6" : "px-[72px]"
+        }`}
+      >
+        <div className="flex lg:flex-row flex-col ">
           {footerLinks.map((section, index) => (
-            <div key={index} className="py-12 flex-1">
+            <div key={index} className="py-12 flex-1 border-b border-gray-300">
               <span className="font-semibold">{section.title}</span>
               <div className="flex flex-col gap-2 mt-2">
                 {section.links.map((link, linkIndex) => (
-                  <a
-                    key={linkIndex}
-                    className="hover:underline cursor-pointer"
-                  >
+                  <a key={linkIndex} className="hover:underline cursor-pointer">
                     {link}
                   </a>
                 ))}
@@ -142,8 +175,9 @@ function Footer() {
         </div>
 
         {/* Bottom Section */}
-        <div className="py-6 flex justify-between">
-          <div className="flex items-center gap-3">
+        <div className="py-6 flex flex-col-reverse xl:flex-row sm:items-center gap-4 xl:gap-0 xl:justify-between">
+          {/* Copyright */}
+          <div className="flex gap-0 flex-col xl:flex-row sm:items-center xl:gap-3 xl">
             <p>© 2024 Airbnb, Inc.</p>
             <ul className="flex items-center gap-3">
               <li>
@@ -156,7 +190,9 @@ function Footer() {
                 <a className="hover:underline cursor-pointer">Sitemap</a>
               </li>
               <li>
-                <a className="hover:underline cursor-pointer">Company details</a>
+                <a className="hover:underline cursor-pointer">
+                  Company details
+                </a>
               </li>
             </ul>
           </div>
