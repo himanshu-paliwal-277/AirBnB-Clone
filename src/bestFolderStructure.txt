@@ -1,0 +1,89 @@
+src/
+├── assets/               # Static assets (images, icons, fonts, etc.)
+│   ├── images/
+│   ├── icons/
+│   └── styles/           # Global SCSS/CSS files (if any)
+│       └── index.css
+│
+├── components/           # Reusable UI components
+│   ├── Button/
+│   │   ├── Button.jsx
+│   │   └── Button.css
+│   ├── Card/
+│   │   ├── ListingCard.jsx
+│   │   └── ListingCard.css
+│   ├── Navbar/
+│   │   ├── Navbar.jsx
+│   │   └── Navbar.css
+│   └── Footer/
+│       ├── Footer.jsx
+│       └── Footer.css
+│
+├── features/             # Features/Modules (connected to Redux slices if needed)
+│   ├── auth/             # Authentication (Login/Signup)
+│   │   ├── AuthForm.jsx
+│   │   ├── authSlice.js
+│   │   └── authServices.js
+│   ├── listings/         # Listings (browse, filter, manage)
+│   │   ├── ListingDetails.jsx
+│   │   ├── Listings.jsx
+│   │   ├── FilterBar.jsx
+│   │   ├── listingSlice.js
+│   │   └── listingServices.js
+│   ├── bookings/         # Booking management
+│   │   ├── BookingCard.jsx
+│   │   ├── Bookings.jsx
+│   │   ├── bookingSlice.js
+│   │   └── bookingServices.js
+│   ├── favorites/        # Favorite listings
+│   │   ├── Favorites.jsx
+│   │   ├── FavoriteButton.jsx
+│   │   ├── favoriteSlice.js
+│   │   └── favoriteServices.js
+│   └── host/             # Host-related features
+│       ├── HostDashboard.jsx
+│       ├── AddListingForm.jsx
+│       ├── hostSlice.js
+│       └── hostServices.js
+│
+├── hooks/                # Custom hooks
+│   ├── useAuth.js
+│   ├── useFetch.js
+│   └── useToggle.js
+│
+├── layouts/              # Page layouts (if needed)
+│   ├── UserLayout.jsx
+│   └── HostLayout.jsx
+│
+├── pages/                # Top-level pages for routing
+│   ├── Home.jsx
+│   ├── Login.jsx
+│   ├── Signup.jsx
+│   ├── ListingDetails.jsx
+│   ├── UserProfile.jsx
+│   ├── Bookings.jsx
+│   ├── Favorites.jsx
+│   └── Host/
+│       ├── HostDashboard.jsx
+│       ├── ManageListings.jsx
+│       └── AddListing.jsx
+│
+├── redux/                # Redux store and slices
+│   ├── store.js          # Redux store setup
+│   ├── rootReducer.js    # Combine all reducers
+│   └── middleware.js     # Custom middlewares (if any)
+│
+├── services/             # API service utilities
+│   ├── api.js            # Axios or fetch setup
+│   ├── authService.js    # Authentication API calls
+│   ├── listingService.js # Listings API calls
+│   └── bookingService.js # Bookings API calls
+│
+├── utils/                # Utility functions
+│   ├── formatDate.js
+│   ├── priceCalculator.js
+│   └── validateForm.js
+│
+├── App.jsx               # Main App component
+├── index.js              # React entry point
+└── routes.js             # App routes (React Router)
