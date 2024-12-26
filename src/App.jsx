@@ -3,6 +3,7 @@ import MainLayout from "./layouts/MainLayout";
 import Card from "./components/Card/Card";
 import Home from "./pages/Home";
 import ListingDetails from "./pages/ListingDetails";
+import "react-toastify/dist/ReactToastify.css"; // Import Toastify's styles
 
 function App() {
   return (
