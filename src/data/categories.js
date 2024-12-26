@@ -83,7 +83,7 @@ export const categories = [
       icon: "https://a0.muscache.com/pictures/c5a4f6fc-c92c-4ae8-87dd-57f1ff1b89a6.jpg",
       label: "Omg!",
       value: "omg!",
-    },
+    }, 
     {
       icon: "https://a0.muscache.com/pictures/78ba8486-6ba6-4a43-a56d-f556189193da.jpg",
       label: "Mansions",

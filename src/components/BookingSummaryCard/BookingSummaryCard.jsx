@@ -2,6 +2,7 @@ import DatePicker from "../DatePicker/DatePicker";
 import tag_icon from "../../assets/icons/tag-icon.svg";
 import flag_icon from "../../assets/icons/flag.svg";
 import { useState } from "react";
+import { formatNumberWithCommas } from "../../utils/formatNumberWithCommas";
 
 function BookingSummaryCard({ originalPrice, discountedPrice }) {
   const [date1, setDate1] = useState(null);
@@ -52,9 +53,11 @@ function BookingSummaryCard({ originalPrice, discountedPrice }) {
         <div className="p-0 flex flex-col gap-4">
           <div className="flex items-baseline gap-1">
             <span className="line-through text-xl text-gray-500">
-              ₹{originalPrice}
+              ₹{formatNumberWithCommas(originalPrice)}
             </span>
-            <span className="font-semibold text-xl">₹{discountedPrice}</span>
+            <span className="font-semibold text-xl">
+              ₹{formatNumberWithCommas(discountedPrice)}
+            </span>
             <span className="text-gray-500">night</span>
           </div>
 
@@ -107,12 +110,12 @@ function BookingSummaryCard({ originalPrice, discountedPrice }) {
               <div className="underline">
                 ₹{discountedPrice} x {numberOfNights} nights
               </div>
-              <div>₹{total}</div>
+              <div>₹{formatNumberWithCommas(total)}</div>
             </div>
 
             <div className="pt-4 border-t flex justify-between items-center font-semibold">
               <div>Total before taxes</div>
-              <div>₹{total}</div>
+              <div>₹{formatNumberWithCommas(total)}</div>
             </div>
           </div>
         </div>

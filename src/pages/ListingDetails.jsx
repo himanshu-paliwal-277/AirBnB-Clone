@@ -3,6 +3,8 @@ import garden_icon from "../assets/icons/garden-icon.svg";
 import swimming_pool_icon from "../assets/icons/swimming-pool-icon.svg";
 import arrow_icon from "../assets/icons/arrow.svg";
 import bag_icon from "../assets/icons/bag.svg";
+import heart_icon from "../assets/icons/heart-icon-3.svg";
+import share_icon from "../assets/icons/share-icon.svg";
 import music_icon from "../assets/icons/music.svg";
 import Bookmark_icon from "../assets/icons/Bookmark-icon.svg";
 import { useEffect, useState } from "react";
@@ -11,8 +13,10 @@ import { properties_rules } from "../data/properties_rules";
 import Calendar from "react-calendar";
 import { properties } from "../data/properties";
 import ImageGrid from "../components/ImageGrid/ImageGrid";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import BookingSummaryCard from "../components/BookingSummaryCard/BookingSummaryCard";
+import ImageSlider from "../components/ImageSlider/ImageSlider";
+import { formatNumberWithCommas } from "../utils/formatNumberWithCommas.js";
 
 function ListingDetails() {
   const param = useParams();
@@ -23,6 +27,7 @@ function ListingDetails() {
   const [isPriceDetailsVisible, setIsPriceDetailsVisible] = useState(false);
   const [reviewsCount, setReviewsCount] = useState(0); // Initialize state for reviewsCount
   const [propertyDetails, setPropertyDetails] = useState([1, 1, 8, 4]); // [guests, bedrooms, beds, bathrooms]
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Set a random review count when the component mounts
@@ -58,25 +63,64 @@ function ListingDetails() {
 
   const originalPrice = properties[param.id - 1]?.price;
   const discountedPrice = Math.floor(originalPrice - originalPrice * 0.1);
-  // const reviewsCount = Math.floor(Math.random() * 6);
 
   return (
     <>
       {/* section 1 */}
-      <section id="photos" className="px-28 relative">
-        <h1 className="font-semibold text-[26px] mt-6">
-          Lorem ipsum dolor sit amet consectetur.
+      <section
+        id="photos"
+        className="xl:px-[160px] sm:px-10  relative flex sm:flex-col flex-col-reverse"
+      >
+        <h1 className="font-semibold text-[26px] mt-6 sm:px-0 px-6">
+          Lorem ipsum consectetur
         </h1>
         {/* Image Grid */}
-        <ImageGrid property={properties[param.id - 1]} />
+        <div className="sm:block hidden">
+          <ImageGrid property={properties[param.id - 1]} />
+        </div>
+
+        <div className="sm:hidden block relative">
+          <ImageSlider property={properties[param.id - 1]} />
+
+          {/* buttons in mobile view */}
+          <div className="px-[13px] w-full pt-[14px] pb-[25px] absolute top-0 z-10 flex justify-between">
+            <button
+              onClick={() => navigate(-1)}
+              className="rounded-full  shadow-lg w-[34px] h-[34px] flex justify-center items-center bg-white"
+            >
+              <img
+                className="w-4 scale-90 rotate-180"
+                src={arrow_icon}
+                alt="arrow icon"
+              />
+            </button>
+            <div className="flex gap-3">
+              <button className="rounded-full  shadow-lg w-[34px] h-[34px] flex justify-center items-center bg-white">
+                <img
+                  className="w-4 scale-90"
+                  src={share_icon}
+                  alt="share icon"
+                />
+              </button>
+              <button className="rounded-full  shadow-lg w-[34px] h-[34px] flex justify-center items-center bg-white">
+                <img
+                  className="w-4 scale-90"
+                  src={heart_icon}
+                  alt="heart icon"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
       </section>
 
+      {/* Navigation bar */}
       <div
-        className={`px-28 ${
+        className={`xl:px-[160px] sm:px-10 px-6 ${
           isVisible ? "flex justify-between  sticky top-0 z-10" : "hidden"
         } border-b border-gray-300 bg-white font-semibold transition-transform duration-300`}
       >
-        <ul className="flex gap-6">
+        <ul className="flex gap-6 sm:text-base text-sm">
           <li className="pt-[30px] pb-[26px] border-b-4 border-white hover:border-gray-500 cursor-pointer">
             <a href="#photos">Photos</a>
           </li>
@@ -92,13 +136,19 @@ function ListingDetails() {
         </ul>
         <div
           className={` text-gray-500 ${
-            isPriceDetailsVisible ? "flex items-center gap-5" : "hidden"
+            isPriceDetailsVisible
+              ? "sm:flex sm:items-center sm:gap-5 hidden"
+              : "hidden"
           }`}
         >
           <div>
             <div className="flex gap-1 items-center">
-              <span className="line-through ">₹{originalPrice}</span>
-              <span className="text-black">₹{discountedPrice}</span>
+              <span className="line-through ">
+                ₹{formatNumberWithCommas(originalPrice)}
+              </span>
+              <span className="text-black">
+                ₹{formatNumberWithCommas(discountedPrice)}
+              </span>
               <span className="text-sm">night</span>
             </div>
             <a className="underline cursor-pointer text-sm">
@@ -116,18 +166,18 @@ function ListingDetails() {
       </div>
 
       {/* section 2 */}
-      <section className="px-28 flex ">
+      <section className="xl:px-[160px] sm:px-10 px-6 flex ">
         <div className="flex-1">
-          <div className="py-8">
-            <h1 className="text-[22px] font-semibold">
+          <div className="sm:py-8 py-2">
+            <h1 className="sm:text-[22px] font-semibold">
               Private room in {properties[param.id - 1].location}
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className="sm:text-lg text-gray-600">
               {`${propertyDetails[0]} guests ${propertyDetails[1]} bedrooms ${propertyDetails[2]} beds ${propertyDetails[3]} bathrooms`}
             </p>
             <a className=" flex  items-center gap-1">
               <img className="w-4 h-4" src={star_icon} alt="star_icon" />
-              <span className="underline font-semibold text-lg cursor-pointer">
+              <span className="underline font-semibold sm:text-lg cursor-pointer">
                 {reviewsCount === 0
                   ? "no reviews yet"
                   : reviewsCount + 1 === 1
@@ -202,7 +252,7 @@ function ListingDetails() {
             <div className="flex gap-4">
               <div className="flex-1">
                 <img
-                  className="mb-3 w-full h-[212px] rounded-lg"
+                  className="mb-3 w-full sm:h-[212px] h-[120px] rounded-lg"
                   src="https://a0.muscache.com/im/pictures/miso/Hosting-837315422629442025/original/b7ae8ae8-adc0-4eb8-9885-b88b4ead3c16.jpeg?im_w=720&im_format=avif"
                   alt="bedroom image"
                 />
@@ -211,7 +261,7 @@ function ListingDetails() {
               </div>
               <div className="flex-1">
                 <img
-                  className="mb-3 w-full h-[212px] rounded-lg"
+                  className="mb-3 w-full sm:h-[212px] h-[120px] rounded-lg"
                   src="https://a0.muscache.com/im/pictures/miso/Hosting-837315422629442025/original/7f47fc1c-3403-4765-a5fc-e02e8f94a476.jpeg?im_w=720&im_format=avif"
                   alt="bedroom image"
                 />
@@ -225,7 +275,7 @@ function ListingDetails() {
             <h1 className="text-[22px] font-semibold pb-6">
               What this place offers
             </h1>
-            <div className="grid grid-cols-2 gap-y-3">
+            <div className="grid sm:grid-cols-2 grid-cols-1 gap-y-3">
               {facilities.map((facility, index) => (
                 <div key={index} className="flex gap-2 items-center">
                   <img
@@ -254,15 +304,17 @@ function ListingDetails() {
                 onChange={() => console.log("onChange calendar")}
                 value={12}
               />
-              <Calendar
-                onChange={() => console.log("onChange calendar")}
-                value={12}
-              />
+              <div className="sm:block hidden">
+                <Calendar
+                  onChange={() => console.log("onChange calendar")}
+                  value={12}
+                />
+              </div>
             </div>
           </div>
         </div>
 
-        <div className="ml-[94px] w-[34%] pt-8 relative">
+        <div className="lg:ml-[94px] w-[34%] pt-8 relative sm:block hidden">
           <BookingSummaryCard
             originalPrice={originalPrice}
             discountedPrice={discountedPrice}
@@ -271,7 +323,10 @@ function ListingDetails() {
       </section>
 
       {/* section 3 */}
-      <section id="review" className="mx-28 py-12 border-gray-300 border-b">
+      <section
+        id="review"
+        className="xl:mx-[160px] sm:mx-10 px-6 py-12 border-gray-300 border-b"
+      >
         <div className="md:w-[40%] ">
           <div>
             <h1 className="text-[26px] font-semibold">1 review</h1>
@@ -318,7 +373,10 @@ function ListingDetails() {
       </section>
 
       {/* section 4 */}
-      <section id="location" className="mx-28 py-12  border-gray-300 border-b">
+      <section
+        id="location"
+        className="xl:mx-[160px] sm:mx-10 px-6 py-12  border-gray-300 border-b"
+      >
         <h1 className="text-[26px] font-semibold">Where you’ll be</h1>
         <div className="flex justify-center items-center mt-12 ">
           <iframe
@@ -357,21 +415,23 @@ function ListingDetails() {
       </section>
 
       {/* section 5 */}
-      <section className="mx-28 py-12  border-gray-300 border-b">
+      <section className="xl:mx-[160px] sm:mx-10 px-6 py-12  border-gray-300 border-b">
         <h1 className="text-[24px] font-semibold">Meet your Host</h1>
-        <div className="flex gap-12">
-          <div className="flex w-[33%] flex-col">
+        <div className="flex lg:flex-row flex-col gap-12">
+          <div className="flex sm:w-[380px] w-full flex-col">
             <div
-              className="flex mt-6 mb-8 gap-16 items-center  rounded-3xl bg-white  py-6 px-10"
+              className="flex mt-6 mb-8 sm:gap-16 gap-12 items-center  rounded-3xl bg-white  py-6 sm:px-10 px-8"
               style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 2px 8px 2px" }}
             >
               <div className="flex flex-col items-center ">
                 <img
-                  className="rounded-full w-24 h-24 object-cover"
+                  className="rounded-full sm:w-24 sm:h-24 w-20 h-20 object-cover"
                   src="https://a0.muscache.com/im/pictures/user/9c999b5e-a377-46fc-b0b4-d7aecd62bd29.jpg?im_w=240&im_format=avif 1x"
                   alt=""
                 />
-                <h2 className="font-semibold text-3xl mt-2">Gursimran</h2>
+                <h2 className="font-semibold sm:text-3xl text-2xl mt-2">
+                  Gursimran
+                </h2>
                 <p>Host</p>
               </div>
               <div className="flex-1">
@@ -414,7 +474,7 @@ function ListingDetails() {
             </button>
           </div>
 
-          <div className="flex-1 mr-12">
+          <div className="flex-1 xl:mr-12">
             <div className="pt-12">
               <h2 className="text-xl font-semibold">Co-Hosts</h2>
               <div className="flex gap-6 mt-4">
@@ -454,9 +514,9 @@ function ListingDetails() {
       </section>
 
       {/* section 6 */}
-      <section className="px-28 py-12">
+      <section className="xl:px-[160px] sm:px-10 px-6 py-12">
         <h1 className="text-[26px] font-semibold mb-6">Things to know</h1>
-        <div className="flex">
+        <div className="flex sm:flex-row flex-col gap-8 sm:gap-0">
           <div className="flex flex-col gap-3 text-[17px] flex-1">
             <h2 className="font-semibold">House rules</h2>
             {properties_rules["houseRules"].map((rule, index) => (
@@ -501,6 +561,29 @@ function ListingDetails() {
           </div>
         </div>
       </section>
+
+      {/* bottom bar booking summary */}
+      <div className="flex sm:hidden h-20 px-6 bg-white border-t-[1px] border-gray-300 fixed bottom-0 z-20 w-full">
+        <div
+          className={` text-gray-600 flex justify-between w-full items-center gap-5`}
+        >
+          <div className="flex flex-col">
+            <div className="flex gap-1 items-center sm:text-lg underline">
+              <span className="line-through font-semibold">
+                ₹{formatNumberWithCommas(originalPrice)}
+              </span>
+              <span className="text-black font-semibold">
+                ₹{formatNumberWithCommas(discountedPrice)}
+              </span>
+              <span>night</span>
+            </div>
+            <span className="text-xs text-gray-800">{"5-10 Jan"}</span>
+          </div>
+          <button className="sm:px-10 px-4 py-[10px] sm:text-lg bg-[#FF385C] hover:bg-[#FF385C]/90 text-white font-semibold rounded-lg">
+            Reserve
+          </button>
+        </div>
+      </div>
     </>
   );
 }

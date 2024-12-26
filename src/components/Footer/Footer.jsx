@@ -104,8 +104,8 @@ function Footer() {
       {/* Inspiration Section */}
       <div
         className={`border-b border-gray-300 ${
-          path.pathname === "/" ? "sm:px-10 px-6" : "px-[72px]"
-        } py-10`}
+          path.pathname === "/" ? "sm:px-10 xl:px-[80px] px-6" : "xl:px-[160px] sm:px-10 px-6"
+        }`}
       >
         <h1 className="mb-4 text-2xl font-semibold">
           Inspiration for future getaways
@@ -156,7 +156,7 @@ function Footer() {
       {/* Footer Links Section */}
       <div
         className={`${
-          path.pathname === "/" ? "sm:px-10 px-6" : "px-[72px]"
+          path.pathname === "/" ? "sm:px-10 xl:px-[80px] px-6" : "xl:px-[160px] sm:px-10 px-6"
         }`}
       >
         <div className="flex lg:flex-row flex-col ">

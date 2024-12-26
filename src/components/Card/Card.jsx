@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -41,7 +40,7 @@ const Card = ({ images, location, title, rating, dateRange, price, id }) => {
           onSlideChange={handleSlideChange} // Update button visibility on slide change
           pagination={{ clickable: true }}
           modules={[Navigation, Pagination]}
-          className="w-full h-[280px] rounded-xl overflow-hidden"
+          className="w-full sm:h-[280px] h-[358px] rounded-xl overflow-hidden"
         >
           {images.map((img, index) => (
             <SwiperSlide key={index}>

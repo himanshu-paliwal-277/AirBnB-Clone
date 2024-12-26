@@ -12,13 +12,16 @@ function Header() {
 
   return (
     <>
-      <header className={`bg-white ${
-            path.pathname === "/"
-              ? "sm:px-10 px-6 sticky top-0 z-20"
-              : "px-28 "
-          }`}>
+      <header
+        className={`bg-white ${
+          path.pathname === "/"
+            ? "sm:px-10 xl:px-[80px] px-6 sticky top-0 z-20"
+            : "xl:px-[160px] sm:px-10 hidden sm:block"
+        }`}
+      >
+        {/* Desktop Header */}
         <div
-          className={`sm:flex hidden sm:justify-between   py-4 border-b-[1px]`}
+          className={`sm:flex hidden sm:justify-between  py-4 border-b-[1px]`}
         >
           {/* logo */}
           <div className="lg:w-[22%] flex items-center">
@@ -75,12 +78,22 @@ function Header() {
           </div>
         </div>
 
-        <div className={` ${
-            path.pathname === "/"
-              ? ""
-              : "hidden"
-          }`}>
-        <Navbar />
+        {/* Mobile Header */}
+        <div className="sm:hidden flex pt-3 mb-4">
+          <button
+            className="rounded-full w-full py-4 font-semibold"
+            style={{ boxShadow: "0px 1px 10px #00000029" }}
+          >
+            <div className="flex items-center justify-center gap-2">
+              <img className="w-3 h-3" src={search_icon} alt="search icon" />
+              <span>Start your search</span>
+            </div>
+          </button>
+        </div>
+
+        {/* Navbar */}
+        <div className={` ${path.pathname === "/" ? "" : "hidden"}`}>
+          <Navbar />
         </div>
       </header>
     </>

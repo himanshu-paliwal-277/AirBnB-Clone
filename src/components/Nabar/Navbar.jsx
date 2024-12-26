@@ -56,7 +56,7 @@ function Navbar() {
 
   return (
     <>
-      <nav className="flex items-center justify-between py-4 w-full sticky top-[83px] z-20 bg-white">
+      <nav className="flex items-center justify-between sm:py-4 py-1 w-full sticky top-[83px] z-20 bg-white">
         <div className="relative xl:w-[70%] lg:w-[62%] sm:w-[50%] w-[100%]">
           <div
             ref={scrollContainerRef}

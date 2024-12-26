@@ -28,7 +28,7 @@ function DatePicker({ dateAfterToday = 0, onDateChange }) {
   };
 
   return (
-    <div>
+    <div className="text-xs lg:text-base">
       <input
         type="date"
         id="datePicker"

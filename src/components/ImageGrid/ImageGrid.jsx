@@ -9,7 +9,7 @@ function ImageGrid({ property }) {
     return (
       <div className="pt-6">
         <div
-          className="grid grid-cols-4 grid-rows-2 gap-2 h-[300px] rounded-xl overflow-hidden"
+          className="grid grid-cols-4 grid-rows-2 gap-2 xl:h-[300px] lg:h-[472px] sm:h-[344px] rounded-xl overflow-hidden"
           style={{
             gridTemplateAreas: `
               "main main small1 small2"
