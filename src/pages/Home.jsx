@@ -3,7 +3,6 @@ import search_icon from "../assets/icons/search-icon-2.svg";
 import heart_icon from "../assets/icons/heart-icon-2.svg";
 import user_icon from "../assets/icons/user-icon.svg";
 import { useState } from "react";
-import { ToastContainer } from "react-toastify";
 
 function Home() {
   const [selectedButton, setSelectedButton] = useState("Explore");
@@ -75,7 +74,7 @@ function Home() {
         </div>
       </div>
 
-      <ToastContainer position="bottom-right" autoClose={2000}  />
+      
     </>
   );
 }

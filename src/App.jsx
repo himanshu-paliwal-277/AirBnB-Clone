@@ -1,20 +1,65 @@
 import { Route, Routes } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
-import Card from "./components/Card/Card";
 import Home from "./pages/Home";
 import ListingDetails from "./pages/ListingDetails";
 import "react-toastify/dist/ReactToastify.css"; // Import Toastify's styles
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import HostDashboard from "./pages/Host/HostDashboard";
+import AddListing from "./pages/Host/AddListing";
+import ManageListings from "./pages/Host/ManageListings";
+import ViewBookingRequests from "./pages/Host/ViewBookingRequests";
+import NotFound from "./pages/NotFound";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <>
       <Routes>
+        {/* Main Layout: Wraps common elements like header or footer */}
         <Route path="/" element={<MainLayout />}>
+          {/* Default Route: Home Page */}
           <Route index element={<Home />}></Route>
+          {/* Listing Details Route */}
           <Route path="/listing-details/:id" element={<ListingDetails />} />
-          <Route path="/card" element={<Card />} />
+          {/* Protected Host Routes */}
+          <Route
+            path="/host/dashboard"
+            element={
+              <ProtectedRoute roleRequired="host">
+                <HostDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/host/add-listing"
+            element={
+              <ProtectedRoute roleRequired="host">
+                <AddListing />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/host/manage-listings"
+            element={
+              <ProtectedRoute roleRequired="host">
+                <ManageListings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/host/booking-requests"
+            element={
+              <ProtectedRoute roleRequired="host">
+                <ViewBookingRequests />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Fallback Route */}
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
+      <ToastContainer position="bottom-right" autoClose={2000}  />
     </>
   );
 }

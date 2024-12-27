@@ -11,15 +11,16 @@ import { useEffect, useState } from "react";
 import { facilities } from "../data/facilities_offers";
 import { properties_rules } from "../data/properties_rules";
 import Calendar from "react-calendar";
-import { properties } from "../data/properties";
 import ImageGrid from "../components/ImageGrid/ImageGrid";
 import { useNavigate, useParams } from "react-router-dom";
 import BookingSummaryCard from "../components/BookingSummaryCard/BookingSummaryCard";
 import ImageSlider from "../components/ImageSlider/ImageSlider";
 import { formatNumberWithCommas } from "../utils/formatNumberWithCommas.js";
+import { useLists } from "../context/ListContext.jsx";
 
 function ListingDetails() {
   const param = useParams();
+  const { listings } = useLists();
 
   console.log("param path = ", param.id);
 
@@ -28,8 +29,15 @@ function ListingDetails() {
   const [reviewsCount, setReviewsCount] = useState(0); // Initialize state for reviewsCount
   const [propertyDetails, setPropertyDetails] = useState([1, 1, 8, 4]); // [guests, bedrooms, beds, bathrooms]
   const navigate = useNavigate();
+  const [list, setList] = useState();
+
+  const getListById = (id) => {
+    return listings.find((listing) => listing.id === id);
+  };
 
   useEffect(() => {
+    setList(getListById(param.id));
+    console.log(list);
     // Set a random review count when the component mounts
     setReviewsCount(Math.floor(Math.random() * 6));
     setPropertyDetails([
@@ -61,7 +69,7 @@ function ListingDetails() {
     };
   }, []);
 
-  const originalPrice = properties[param.id - 1]?.price;
+  const originalPrice = Number(list?.price);
   const discountedPrice = Math.floor(originalPrice - originalPrice * 0.1);
 
   return (
@@ -76,11 +84,16 @@ function ListingDetails() {
         </h1>
         {/* Image Grid */}
         <div className="sm:block hidden">
-          <ImageGrid property={properties[param.id - 1]} />
+          <ImageGrid property={list} />
         </div>
 
         <div className="sm:hidden block relative">
-          <ImageSlider property={properties[param.id - 1]} />
+          {/* <ImageSlider images={list?.images} heightInPixel="283" /> */}
+          {list?.images && list.images.length > 0 ? (
+            <ImageSlider images={list.images} heightInPixel="283" />
+          ) : (
+            <p>No images available</p> // Provide fallback if no images
+          )}
 
           {/* buttons in mobile view */}
           <div className="px-[13px] w-full pt-[14px] pb-[25px] absolute top-0 z-10 flex justify-between">
@@ -170,7 +183,7 @@ function ListingDetails() {
         <div className="flex-1">
           <div className="sm:py-8 py-2">
             <h1 className="sm:text-[22px] font-semibold">
-              Private room in {properties[param.id - 1].location}
+              Private room in {list?.location}
             </h1>
             <p className="sm:text-lg text-gray-600">
               {`${propertyDetails[0]} guests ${propertyDetails[1]} bedrooms ${propertyDetails[2]} beds ${propertyDetails[3]} bathrooms`}

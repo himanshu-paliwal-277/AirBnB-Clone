@@ -40,7 +40,7 @@ const Card = ({ images, location, title, rating, dateRange, price, id }) => {
           onSlideChange={handleSlideChange} // Update button visibility on slide change
           pagination={{ clickable: true }}
           modules={[Navigation, Pagination]}
-          className="w-full sm:h-[280px] h-[358px] rounded-xl overflow-hidden"
+          className="w-full sm:h-[300px] h-[358px] rounded-xl overflow-hidden"
         >
           {images.map((img, index) => (
             <SwiperSlide key={index}>
@@ -94,7 +94,7 @@ const Card = ({ images, location, title, rating, dateRange, price, id }) => {
           <span className="text-gray-700 text-sm">{dateRange}</span>
         </div>
         <div className="mt-2 flex gap-1">
-          <span className="font-semibold">₹{formatNumberWithCommas(price)}</span>
+          <span className="font-semibold">₹{formatNumberWithCommas(Number(price))}</span>
           <span>night</span>
         </div>
       </div>

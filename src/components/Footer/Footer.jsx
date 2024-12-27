@@ -103,7 +103,7 @@ function Footer() {
     <footer className="bg-[#f7f7f7]">
       {/* Inspiration Section */}
       <div
-        className={`border-b border-gray-300 ${
+        className={`border-b border-gray-300 py-12 ${
           path.pathname === "/" ? "sm:px-10 xl:px-[80px] px-6" : "xl:px-[160px] sm:px-10 px-6"
         }`}
       >
@@ -155,8 +155,8 @@ function Footer() {
 
       {/* Footer Links Section */}
       <div
-        className={`${
-          path.pathname === "/" ? "sm:px-10 xl:px-[80px] px-6" : "xl:px-[160px] sm:px-10 px-6"
+        className={`sm:pb-0 pb-16 ${
+          path.pathname === "/" ? "sm:px-10 xl:px-[80px] px-6 " : "xl:px-[160px] sm:px-10 px-6"
         }`}
       >
         <div className="flex lg:flex-row flex-col ">

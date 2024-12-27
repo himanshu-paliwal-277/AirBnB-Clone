@@ -2,32 +2,34 @@ import search_icon from "../../assets/icons/search-icon.svg";
 import world_icon from "../../assets/icons/world-icon.svg";
 import menu_icon from "../../assets/icons/menu-icon.svg";
 import user_icon from "../../assets/icons/user-icon-2.svg";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import airbnb_logo_1 from "../../assets/logo/air-bnb-logo-3.png";
 import airbnb_logo_2 from "../../assets/logo/air-bnb-logo-2.png";
 import Navbar from "../Nabar/Navbar";
-import { useState } from "react";
 import Modal from "react-modal";
 import SignUpModal from "../SignUpModal/SignUpModal";
 import LoginModal from "../LoginModal/LoginModal";
 import { useAuth } from "../../context/AuthContext";
 import { auth } from "../../firebase/firebase.js";
+import { useState } from "react";
 
 function Header() {
   const path = useLocation();
-  // const [selectedButton, setSelectedButton] = useState("Explore");
   const [isSignUpOpen, setSignUpOpen] = useState(false);
   const [isLoginOpen, setLoginOpen] = useState(false);
   const [isMenuOpen, setMenuOpen] = useState(false);
   const { currentUser } = useAuth();
+  const navigate = useNavigate();
 
-  function handleLogout() {
+  async function handleLogout() {
     try {
-      auth.signOut();
+      await auth.signOut(); // Wait for sign-out to complete
       console.log("Logout successful!");
+      setMenuOpen(false); // Optional: Close the menu
+      navigate("/"); // Navigate to home
     } catch (error) {
-      console.log(error);
-      alert("error in logout");
+      console.error(error);
+      alert("Error in logout");
     }
   }
 
@@ -131,20 +133,13 @@ function Header() {
         </div>
       </header>
 
-      {/* {currentUser ? (
-        <div>
-          <p>Username: {currentUser.username}</p>
-          <p>Email: {currentUser.email}</p>
-        </div>
-      ) : (
-        <p>Please log in to view your dashboard.</p>
-      )} */}
-
       {/* Menu Modal */}
       <Modal
         isOpen={isMenuOpen}
         onRequestClose={() => setMenuOpen(false)}
-        className="fixed top-20 right-20 w-60 bg-white rounded-lg"
+        className={`fixed top-20 w-60 bg-white rounded-lg ${
+          path.pathname === "/" ? "right-20 " : "right-40 "
+        }`}
         overlayClassName="fixed inset-0 z-20"
       >
         <div
@@ -190,6 +185,14 @@ function Header() {
           {currentUser && (
             <div>
               <div className="border-b-[1px] pb-2 borderr-gray-300">
+                <button
+                  onClick={() => {navigate("/host/dashboard"); setMenuOpen(false)}}
+                  className={`py-2 px-5 w-full text-start rounded hover:bg-gray-100 ${
+                    currentUser.role === "host" ? "block" : "hidden"
+                  }`}
+                >
+                  Host Dashboard
+                </button>
                 <button className="py-2 px-5 w-full text-start rounded hover:bg-gray-100">
                   Messages
                 </button>

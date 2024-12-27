@@ -5,7 +5,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import PasswordInput from "../PasswordInput/PasswordInput.jsx";
-import { TextField } from "@mui/material";
+import { TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import cross_icon from "../../assets/icons/cross-icon.svg";
 
 Modal.setAppElement("#root"); // Accessibility
@@ -14,6 +14,7 @@ const SignUpModal = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
+  const [role, setRole] = useState(""); // New state for role selection
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -34,14 +35,13 @@ const SignUpModal = ({ isOpen, onClose }) => {
         await setDoc(doc(db, "Users", user.uid), {
           email: user.email,
           username: username,
+          role: role, // Add the selected role
         });
       }
 
-      // alert("Sign-up successful!");
       toast.success("Sign-up successful!");
       onClose(); // Close the modal after successful sign-up
     } catch (error) {
-      // alert(`Error: ${error.message}`);
       toast.error(`${error.message}`);
     }
   };
@@ -75,6 +75,20 @@ const SignUpModal = ({ isOpen, onClose }) => {
             autoComplete="true"
           />
           <PasswordInput password={password} setPassword={setPassword} />
+
+          {/* Role Selection Dropdown */}
+          <FormControl fullWidth required>
+            <InputLabel>Role</InputLabel>
+            <Select
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              variant="outlined"
+              label="Role"
+            >
+              <MenuItem value="user">User</MenuItem>
+              <MenuItem value="host">Host</MenuItem>
+            </Select>
+          </FormControl>
 
           <button
             type="submit"
