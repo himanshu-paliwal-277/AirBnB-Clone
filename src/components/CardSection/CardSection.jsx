@@ -7,7 +7,7 @@ import { useLists } from "../../context/ListContext";
 import ListingLoader from "../Loader/ListingLoader";
 
 const CardSection = () => {
-  const { listings, loading } = useLists();
+  const { filteredListings, loading } = useLists();
   const arr = new Array(8).fill(0);
   if (loading) {
     return (
@@ -21,11 +21,11 @@ const CardSection = () => {
 
   return (
     <>
-      {console.log(listings)}
+      {console.log(filteredListings)}
       <div className="sm:px-10 xl:px-[80px] px-6 grid xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 mt-2">
-        {listings?.length === 0 && <p>No properties found.</p>}
-        {listings?.length > 0 &&
-          listings?.map((property) => <Card key={property.id} {...property} />)}
+        {filteredListings?.length === 0 && <p>No properties found.</p>}
+        {filteredListings?.length > 0 &&
+          filteredListings?.map((property) => <Card key={property.id} {...property} />)}
       </div>
     </>
   );

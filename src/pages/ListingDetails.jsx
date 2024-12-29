@@ -67,6 +67,7 @@ function ListingDetails() {
     return () => {
       window.removeEventListener("scroll", handleScroll); // Cleanup listener
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const originalPrice = Number(list?.price);
@@ -80,7 +81,7 @@ function ListingDetails() {
         className="xl:px-[160px] sm:px-10  relative flex sm:flex-col flex-col-reverse"
       >
         <h1 className="font-semibold text-[26px] mt-6 sm:px-0 px-6">
-          Lorem ipsum consectetur
+          {list?.title}
         </h1>
         {/* Image Grid */}
         <div className="sm:block hidden">

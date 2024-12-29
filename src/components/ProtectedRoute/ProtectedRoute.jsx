@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { auth, db } from "../../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
+import PageLoader from "../../components/Loader/PageLoader";
 
 const ProtectedRoute = ({ roleRequired, children }) => {
   const [userRole, setUserRole] = useState(null);
@@ -23,7 +24,12 @@ const ProtectedRoute = ({ roleRequired, children }) => {
     fetchUserRole();
   }, []);
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading)
+    return (
+      <div className="xl:px-40 lg:px-10 sm:px-10 px-6 py-10">
+        <PageLoader />
+      </div>
+    );
 
   if (!auth.currentUser || userRole !== roleRequired) {
     return <Navigate to="/" />;

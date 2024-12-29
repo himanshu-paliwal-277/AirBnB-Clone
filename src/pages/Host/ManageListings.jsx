@@ -88,7 +88,7 @@ const ManageListings = () => {
   }
 
   return (
-    <div className="px-40 py-10">
+    <div className="xl:px-40 lg:px-10 sm:px-10 px-6 py-10">
       <h1 className="text-3xl font-bold mb-8">Manage Listings</h1>
       {listings.length === 0 ? (
         <p>No listings found.</p>
@@ -97,14 +97,16 @@ const ManageListings = () => {
           {listings.map((listing) => (
             <div
               key={listing.id}
-              className="flex justify-between items-center p-4 rounded-xl"
+              className="flex sm:flex-row flex-col justify-between sm:items-center sm:p-4 overflow-hidden rounded-xl"
               style={{ boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.2)" }}
             >
-              <div className="flex items-center w-full">
-                <div className="w-[350px] rounded-lg overflow-hidden">
+              <div className="flex sm:flex-row flex-col sm:gap-0 gap-5 sm:items-center w-full">
+                {/* Image slider */}
+                <div className="lg:w-[350px] sm:w-[300px] w-full  sm:rounded-lg overflow-hidden">
                   <ImageSlider images={listing?.images} heightInPixel={"220"} />
                 </div>
-                <div className="flex-1 ml-10">
+                {/* Listing details */}
+                <div className="flex-1 sm:px-0 px-5 sm:ml-10">
                   <h2 className="text-2xl font-semibold mb-2">
                     {listing.title}
                   </h2>
@@ -116,7 +118,8 @@ const ManageListings = () => {
                   <p className="text-lg">Date Range: {listing?.dateRange}</p>
                 </div>
               </div>
-              <div className="flex gap-4">
+              {/* Edit and Delete buttons */}
+              <div className="flex lg:flex-row sm:p-0 p-5 flex-col gap-4">
                 <button
                   onClick={() => setEditListing(listing)}
                   className="bg-yellow-500 text-white px-4 py-2 rounded"
@@ -137,14 +140,14 @@ const ManageListings = () => {
 
       {editListing && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-30">
-          <div className="bg-white rounded-lg w-[500px] ">
-            <h2 className="text-2xl font-bold mb-4 px-8 pt-6">Edit Listing</h2>
+          <div className="bg-white rounded-lg sm:w-[500px] w-[85%] ">
+            <h2 className="text-2xl font-bold mb-4 sm:px-8 px-6 pt-6">Edit Listing</h2>
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 saveEditedListing();
               }}
-              className="h-[480px] overflow-y-auto px-8"
+              className="h-[480px] overflow-y-auto sm:px-8 px-6"
             >
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-2">Title:</label>

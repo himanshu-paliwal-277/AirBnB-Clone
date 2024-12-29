@@ -2,12 +2,14 @@ import { useRef, useState, useEffect } from "react";
 import { categories } from "../../data/categories.js";
 import filter_icon from "../../assets/icons/filter-icon.svg";
 import ArrowButton from "../Button/ArrowButton.jsx";
+import FilterModal from "../FilterModal/FilderModal.jsx";
 
 function Navbar() {
   const [activeCategory, setActiveCategory] = useState("historical-homes");
   const scrollContainerRef = useRef(null); // Reference to the scrollable div
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [isFilterModalOpen, setFilterModalOpen] = useState(false);
 
   // Update the scroll states (canScrollLeft, canScrollRight) based on current position
   const updateScrollStates = () => {
@@ -108,7 +110,7 @@ function Navbar() {
         </div>
 
         <div className="sm:flex sm:gap-3 hidden xl:w-[30%] lg:w-[38%] sm:w-[50%] justify-end text-sm">
-          <button className="lg:px-4 px-3 py-3 border-[1px] border-gray-200 rounded-xl hover:border-gray-600 hover:bg-gray-100 duration-100 flex gap-2 items-center">
+          <button onClick={() => setFilterModalOpen(true)} className="lg:px-4 px-3 py-3 border-[1px] border-gray-200 rounded-xl hover:border-gray-600 hover:bg-gray-100 duration-100 flex gap-2 items-center">
             <img className="h-4 w-4" src={filter_icon} alt="filter_icon" />
             <span>Filters</span>
           </button>
@@ -121,6 +123,8 @@ function Navbar() {
           </button>
         </div>
       </nav>
+
+      <FilterModal isOpen={isFilterModalOpen} onClose={() => setFilterModalOpen(false)} />
     </>
   );
 }

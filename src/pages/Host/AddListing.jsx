@@ -71,9 +71,9 @@ const AddListing = () => {
   };
 
   return (
-    <div className="px-40 py-10 flex justify-center">
+    <div className="xl:px-40 lg:px-10 sm:px-10 px-6 py-10 flex justify-center">
       <div
-        className="bg-sky-200  p-12 w-[70%] rounded-xl"
+        className="bg-sky-200  sm:p-12 p-6 sm:w-[70%] rounded-xl"
         style={{ boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)" }}
       >
         <h1 className="text-3xl font-bold mb-8">Add New Listing</h1>

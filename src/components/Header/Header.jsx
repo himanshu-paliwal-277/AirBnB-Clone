@@ -12,6 +12,7 @@ import LoginModal from "../LoginModal/LoginModal";
 import { useAuth } from "../../context/AuthContext";
 import { auth } from "../../firebase/firebase.js";
 import { useState } from "react";
+import SearchBar from "../SearchBar/SearchBar.jsx";
 
 function Header() {
   const path = useLocation();
@@ -62,22 +63,7 @@ function Header() {
           </div>
           {/* Search Bar */}
           <div className="flex items-center justify-center ">
-            <div className="flex items-center border border-gray-300 rounded-full hover:shadow-md shadow-sm px-2">
-              <button className="px-4 py-3 font-medium text-sm">
-                Anywhere
-              </button>
-              <span className="h-6 w-px bg-gray-200" />
-              <button className="px-4 py-3 font-medium text-sm">
-                Any week
-              </button>
-              <span className="h-6 w-px bg-gray-200" />
-              <button className="px-4 py-3 font-medium text-sm text-gray-600">
-                Add guests
-              </button>
-              <div className="bg-orange-500 p-[10px] rounded-full">
-                <img className="w-3 h-3 invert" src={search_icon} alt="" />
-              </div>
-            </div>
+            <SearchBar />
           </div>
 
           {/* Right Section */}
@@ -186,7 +172,10 @@ function Header() {
             <div>
               <div className="border-b-[1px] pb-2 borderr-gray-300">
                 <button
-                  onClick={() => {navigate("/host/dashboard"); setMenuOpen(false)}}
+                  onClick={() => {
+                    navigate("/host/dashboard");
+                    setMenuOpen(false);
+                  }}
                   className={`py-2 px-5 w-full text-start rounded hover:bg-gray-100 ${
                     currentUser.role === "host" ? "block" : "hidden"
                   }`}
