@@ -4,13 +4,16 @@ import App from "./App.jsx";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext.jsx"; // Correct import with .jsx extension
 import { ListProvider } from "./context/ListContext.jsx";
+import { FavoritesProvider } from "./context/FavoritesContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <AuthProvider>
     <ListProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <FavoritesProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </FavoritesProvider>
     </ListProvider>
   </AuthProvider>
 );

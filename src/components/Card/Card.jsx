@@ -7,13 +7,17 @@ import { useRef, useState } from "react";
 import ArrowButton from "../Button/ArrowButton";
 import star_icon from "../../assets/icons/star-icon.svg";
 import heart_icon from "../../assets/icons/heart-icon.svg";
+import heart_icon_filled from "../../assets/icons/heart-icon-filled.svg";
 import { useNavigate } from "react-router-dom";
 import { formatNumberWithCommas } from "../../utils/formatNumberWithCommas";
+import { useFavorites } from "../../context/FavoritesContext";
 
 const Card = ({ images, location, title, rating, dateRange, price, id }) => {
   const swiperRef = useRef(null);
   const [canSlidePrev, setCanSlidePrev] = useState(false);
-  const [canSlideNext, setCanSlideNext] = useState(images.length > 1);
+  const [canSlideNext, setCanSlideNext] = useState(images?.length > 1);
+  const { favorites, toggleFavorite } = useFavorites(); // Get context values
+  const isFavorite = favorites.includes(id); // Check if current listing is in favorites
   const navigate = useNavigate();
 
   const handleSlideChange = (swiper) => {
@@ -21,18 +25,21 @@ const Card = ({ images, location, title, rating, dateRange, price, id }) => {
     setCanSlideNext(swiper.isEnd === false); // Can slide next if not at the last slide
   };
 
-  function handlePreviousButtonClick(event) { 
+  function handlePreviousButtonClick(event) {
     event.stopPropagation();
     swiperRef.current?.slidePrev();
   }
-  
-  function handleNextButtonClick(event) { 
+
+  function handleNextButtonClick(event) {
     event.stopPropagation();
     swiperRef.current?.slideNext();
   }
 
   return (
-    <div onClick={() => navigate(`/listing-details/${id}`)} className="overflow-hidden relative flex flex-col mb-4 cursor-pointer">
+    <div
+      onClick={() => navigate(`/listing-details/${id}`)}
+      className="overflow-hidden relative flex flex-col mb-4 cursor-pointer"
+    >
       <div className="relative group">
         {/* Swiper for sliding images */}
         <Swiper
@@ -73,12 +80,20 @@ const Card = ({ images, location, title, rating, dateRange, price, id }) => {
           />
         )}
 
-        {/* Heart Icon */}
-        <img
-          src={heart_icon}
-          className="w-6 h-6 absolute top-3 right-3 z-10 hover:scale-105 duration-100 cursor-pointer active:scale-100"
-          alt="heart_icon"
-        />
+        {/* Add to favorites button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            toggleFavorite(id); // Use context to toggle favorite
+          }}
+          className="absolute top-3 right-3 z-10"
+        >
+          <img
+            src={isFavorite ? heart_icon_filled : heart_icon}
+            className="w-6 h-6 hover:scale-105 duration-100 cursor-pointer active:scale-100"
+            alt="heart_icon"
+          />
+        </button>
       </div>
       {/* Card Content */}
       <div className="mt-4">
@@ -94,7 +109,9 @@ const Card = ({ images, location, title, rating, dateRange, price, id }) => {
           <span className="text-gray-700 text-sm">{dateRange}</span>
         </div>
         <div className="mt-2 flex gap-1">
-          <span className="font-semibold">₹{formatNumberWithCommas(Number(price))}</span>
+          <span className="font-semibold">
+            ₹{formatNumberWithCommas(Number(price))}
+          </span>
           <span>night</span>
         </div>
       </div>

@@ -104,7 +104,7 @@ function Footer() {
       {/* Inspiration Section */}
       <div
         className={`border-b border-gray-300 py-12 ${
-          path.pathname === "/" ? "sm:px-10 xl:px-[80px] px-6" : "xl:px-[160px] sm:px-10 px-6"
+          path.pathname === "/" ? "sm:px-10 xl:px-[80px] px-6" : "xl:px-20 sm:px-10 px-6"
         }`}
       >
         <h1 className="mb-4 text-2xl font-semibold">
@@ -156,7 +156,7 @@ function Footer() {
       {/* Footer Links Section */}
       <div
         className={`sm:pb-0 pb-16 ${
-          path.pathname === "/" ? "sm:px-10 xl:px-[80px] px-6 " : "xl:px-[160px] sm:px-10 px-6"
+          path.pathname.startsWith("/listing-details/") ? "xl:px-[160px] sm:px-10 px-6" : "sm:px-10 xl:px-[80px] px-6"
         }`}
       >
         <div className="flex lg:flex-row flex-col ">

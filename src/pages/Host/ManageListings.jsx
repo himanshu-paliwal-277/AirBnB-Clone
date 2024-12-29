@@ -77,7 +77,7 @@ const ManageListings = () => {
 
   if (loading) {
     return (
-      <p className="px-40 font-semibold text-xl py-10">Loading listings...</p>
+      <p className="px-20 font-semibold text-xl py-10">Loading listings...</p>
     );
   }
 
@@ -88,7 +88,7 @@ const ManageListings = () => {
   }
 
   return (
-    <div className="xl:px-40 lg:px-10 sm:px-10 px-6 py-10">
+    <div className="xl:px-20 lg:px-10 sm:px-10 px-6 py-10">
       <h1 className="text-3xl font-bold mb-8">Manage Listings</h1>
       {listings.length === 0 ? (
         <p>No listings found.</p>
@@ -97,7 +97,7 @@ const ManageListings = () => {
           {listings.map((listing) => (
             <div
               key={listing.id}
-              className="flex sm:flex-row flex-col justify-between sm:items-center sm:p-4 overflow-hidden rounded-xl"
+              className="flex sm:flex-row flex-col justify-between sm:items-center xl:p-6 sm:p-4 overflow-hidden rounded-xl"
               style={{ boxShadow: "0px 2px 8px rgba(0, 0, 0, 0.2)" }}
             >
               <div className="flex sm:flex-row flex-col sm:gap-0 gap-5 sm:items-center w-full">

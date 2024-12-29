@@ -39,9 +39,9 @@ function Header() {
       {/* Header */}
       <header
         className={`bg-white ${
-          path.pathname === "/"
-            ? "sm:px-10 xl:px-[80px] px-6 sticky top-0 z-20"
-            : "xl:px-[160px] sm:px-10 hidden sm:block"
+          path.pathname.startsWith("/listing-details/")
+            ? "xl:px-[160px] sm:px-10 hidden sm:block"
+            : "sm:px-10 xl:px-[80px] px-6 sticky top-0 z-20"
         }`}
       >
         {/* Desktop Header */}
@@ -62,7 +62,13 @@ function Header() {
             />
           </div>
           {/* Search Bar */}
-          <div className="flex items-center justify-center ">
+          <div
+            className={` ${
+              path.pathname === "/wishlist"
+                ? "hidden"
+                : "flex items-center justify-center"
+            }`}
+          >
             <SearchBar />
           </div>
 
@@ -191,7 +197,13 @@ function Header() {
                 <button className="py-2 px-5 w-full text-start rounded hover:bg-gray-100">
                   Trips
                 </button>
-                <button className="py-2 px-5 w-full text-start rounded hover:bg-gray-100">
+                <button
+                  onClick={() => {
+                    navigate("/wishlist");
+                    setMenuOpen(false);
+                  }}
+                  className="py-2 px-5 w-full text-start rounded hover:bg-gray-100"
+                >
                   Wishlists
                 </button>
               </div>

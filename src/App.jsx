@@ -10,6 +10,8 @@ import ManageListings from "./pages/Host/ManageListings";
 import ViewBookingRequests from "./pages/Host/ViewBookingRequests";
 import NotFound from "./pages/NotFound";
 import { ToastContainer } from "react-toastify";
+import Favorites from "./pages/Favorites";
+// import Favorites from "./pages/Favorites";
 
 function App() {
   return (
@@ -25,7 +27,7 @@ function App() {
           <Route
             path="/host/dashboard"
             element={
-              <ProtectedRoute roleRequired="host">
+              <ProtectedRoute rolesRequired={["host"]}>
                 <HostDashboard />
               </ProtectedRoute>
             }
@@ -33,7 +35,7 @@ function App() {
           <Route
             path="/host/add-listing"
             element={
-              <ProtectedRoute roleRequired="host">
+              <ProtectedRoute rolesRequired={["host"]}>
                 <AddListing />
               </ProtectedRoute>
             }
@@ -41,7 +43,7 @@ function App() {
           <Route
             path="/host/manage-listings"
             element={
-              <ProtectedRoute roleRequired="host">
+              <ProtectedRoute rolesRequired={["host"]}>
                 <ManageListings />
               </ProtectedRoute>
             }
@@ -49,8 +51,16 @@ function App() {
           <Route
             path="/host/booking-requests"
             element={
-              <ProtectedRoute roleRequired="host">
+              <ProtectedRoute rolesRequired={["host"]}>
                 <ViewBookingRequests />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/wishlist"
+            element={
+              <ProtectedRoute rolesRequired={["host", "user"]}>
+                <Favorites />
               </ProtectedRoute>
             }
           />

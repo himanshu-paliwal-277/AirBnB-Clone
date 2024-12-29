@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const HostDashboard = () => {
   return (
-    <div className="xl:px-40 lg:px-10 sm:px-10 px-6 py-10">
+    <div className="xl:px-20 lg:px-10 sm:px-10 px-6 py-10">
       <h1 className="text-3xl font-bold mb-6">Host Dashboard</h1>
       <div className="space-y-4">
         <Link

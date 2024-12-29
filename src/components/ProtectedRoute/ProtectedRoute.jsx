@@ -4,7 +4,7 @@ import { auth, db } from "../../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import PageLoader from "../../components/Loader/PageLoader";
 
-const ProtectedRoute = ({ roleRequired, children }) => {
+const ProtectedRoute = ({ rolesRequired, children }) => {
   const [userRole, setUserRole] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -26,12 +26,13 @@ const ProtectedRoute = ({ roleRequired, children }) => {
 
   if (isLoading)
     return (
-      <div className="xl:px-40 lg:px-10 sm:px-10 px-6 py-10">
+      <div className="xl:px-20 lg:px-10 sm:px-10 px-6 py-10">
         <PageLoader />
       </div>
     );
 
-  if (!auth.currentUser || userRole !== roleRequired) {
+  // If no user is logged in or if their role is not one of the allowed roles
+  if (!auth.currentUser || !rolesRequired?.includes(userRole)) {
     return <Navigate to="/" />;
   }
 
