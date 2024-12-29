@@ -7,15 +7,19 @@ import { useLists } from "../../context/ListContext";
 Modal.setAppElement("#root"); // Accessibility
 
 const FilterModal = ({ isOpen, onClose }) => {
+  const { filterByPrice, setLoading } = useLists();
   const [minPrice, setMinPrice] = useState(3000);
   const [maxPrice, setMaxPrice] = useState(15000);
-  const { filterByPrice } = useLists();
 
   // Handle price filter changes
   const handlePriceFilter = () => {
     const updatedRange = { min: minPrice, max: maxPrice };
     filterByPrice(updatedRange); // Pass the updated price range to the filter function
     onClose(); // Close the modal after applying the filter
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   };
 
   function handleClearPricesRange() {
@@ -53,15 +57,37 @@ const FilterModal = ({ isOpen, onClose }) => {
             <div className="flex justify-between mt-2 text-xs ">
               <div className="flex flex-col items-center">
                 <span className="text-gray-700 ">Minimum</span>
-                <span className="px-6 font-semibold text-sm py-3 mt-2 border border-gray-400 rounded-full">
-                  ₹{minPrice}
-                </span>
+                <div className="flex items-center px-6 font-semibold text-sm py-3 mt-2 border border-gray-400 rounded-full outline outline-1 outline-gray-300 w-fit">
+                  <span className="text-gray-600">₹</span>
+                  <input
+                    className="w-[55px] text-center outline-none bg-transparent appearance-none"
+                    type="number"
+                    value={minPrice}
+                    onChange={(e) => setMinPrice(Number(e.target.value) || 0)}
+                    min={850}
+                    max={20000}
+                    style={{
+                      WebkitAppearance: "none",
+                    }}
+                  />
+                </div>
               </div>
               <div className="flex flex-col items-center">
                 <span className="text-gray-700 ">Maximum</span>
-                <span className="px-6 font-semibold py-3 text-sm mt-2 border border-gray-400 rounded-full">
-                  ₹{maxPrice}
-                </span>
+                <div className="flex items-center px-6 font-semibold text-sm py-3 mt-2 border border-gray-400 rounded-full outline outline-1 outline-gray-300 w-fit">
+                  <span className="text-gray-600">₹</span>
+                  <input
+                    className="w-[55px] text-center outline-none bg-transparent appearance-none"
+                    type="number"
+                    value={maxPrice}
+                    onChange={(e) => setMinPrice(Number(e.target.value) || 0)}
+                    min={850}
+                    max={20000}
+                    style={{
+                      WebkitAppearance: "none",
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>

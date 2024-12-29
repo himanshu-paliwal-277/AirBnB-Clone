@@ -3,7 +3,7 @@ import { useLists } from "../../context/ListContext";
 import search_icon from "../../assets/icons/search-icon.svg";
 
 const SearchBar = () => {
-  const { searchListings, setLoading } = useLists();
+  const { searchListings, setLoading, setLocation } = useLists();
   const [searchQuery, setSearchQuery] = useState("");
 
   function handleSearchButtonClick() {
@@ -12,7 +12,8 @@ const SearchBar = () => {
       setLoading(true);
       setTimeout(() => {
         setLoading(false);
-      }, 2000);
+      }, 1000);
+      setLocation(searchQuery);
     }
     console.log("searchQuery - ", searchQuery);
   }

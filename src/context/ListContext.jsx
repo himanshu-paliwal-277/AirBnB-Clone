@@ -11,8 +11,11 @@ export const ListProvider = ({ children }) => {
   const [filteredListings, setFilteredListings] = useState([]); // State for filtered results
   const [loading, setLoading] = useState(true);
 
+  // Location State
+  const [location, setLocation] = useState("");
+
   // Price Range State
-  const [priceRange, setPriceRange] = useState({ min: 0, max: Infinity });
+  const [priceRange, setPriceRange] = useState({ min: 3000, max: 15000 });
 
   // Fetch listings from Firebase
   const fetchLists = async () => {
@@ -44,20 +47,27 @@ export const ListProvider = ({ children }) => {
     setFilteredListings(filtered);
   };
 
-  // Search Listings
-  const searchListings = (location) => {
-    filterListings(location, priceRange); // Filter using location and current price range
+  // Search Listings based on location
+  const searchListings = (searchLocation) => {
+    setLocation(searchLocation); // Update location state
+    filterListings(searchLocation, priceRange); // Filter using location and current price range
   };
 
   // Filter Listings by Price
   const filterByPrice = (range) => {
     setPriceRange(range);
-    filterListings("", range); // Filter using price and current location
+    filterListings(location, range); // Filter using price and current location
   };
 
   useEffect(() => {
     fetchLists();
   }, []);
+
+  // Whenever location or priceRange changes, filter listings
+  useEffect(() => {
+    filterListings(location, priceRange);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location, priceRange]);
 
   return (
     <ListContext.Provider
@@ -68,6 +78,7 @@ export const ListProvider = ({ children }) => {
         setLoading,
         searchListings,
         filterByPrice,
+        setLocation,
       }}
     >
       {children}
