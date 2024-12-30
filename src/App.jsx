@@ -11,6 +11,7 @@ import ViewBookingRequests from "./pages/Host/ViewBookingRequests";
 import NotFound from "./pages/NotFound";
 import { ToastContainer } from "react-toastify";
 import Favorites from "./pages/Favorites";
+import Profile from "./pages/Profile";
 // import Favorites from "./pages/Favorites";
 
 function App() {
@@ -61,6 +62,14 @@ function App() {
             element={
               <ProtectedRoute rolesRequired={["host", "user"]}>
                 <Favorites />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute rolesRequired={["host", "user"]}>
+                <Profile />
               </ProtectedRoute>
             }
           />

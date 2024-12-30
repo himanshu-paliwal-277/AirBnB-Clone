@@ -214,7 +214,7 @@ function Header() {
                 <button className="py-2 px-5 w-full text-start rounded hover:bg-gray-100">
                   Host an experience
                 </button>
-                <button className="py-2 px-5 w-full text-start rounded hover:bg-gray-100">
+                <button onClick={() => {navigate("/profile"); setMenuOpen(false)}} className="py-2 px-5 w-full text-start rounded hover:bg-gray-100">
                   Account
                 </button>
               </div>
