@@ -12,6 +12,7 @@ import { db, auth } from "../../firebase/firebase"; // Ensure this is your Fireb
 import ImageSlider from "../../components/ImageSlider/ImageSlider";
 import { toast } from "react-toastify";
 import { formatNumberWithCommas } from "../../utils/formatNumberWithCommas";
+import PageLoader from "../../components/Loader/PageLoader";
 
 const ManageListings = () => {
   const [listings, setListings] = useState([]);
@@ -77,7 +78,9 @@ const ManageListings = () => {
 
   if (loading) {
     return (
-      <p className="px-20 font-semibold text-xl py-10">Loading listings...</p>
+      <div className="py-0">
+        <PageLoader />
+      </div>
     );
   }
 
@@ -141,7 +144,9 @@ const ManageListings = () => {
       {editListing && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-30">
           <div className="bg-white rounded-lg sm:w-[500px] w-[85%] ">
-            <h2 className="text-2xl font-bold mb-4 sm:px-8 px-6 pt-6">Edit Listing</h2>
+            <h2 className="text-2xl font-bold mb-4 sm:px-8 px-6 pt-6">
+              Edit Listing
+            </h2>
             <form
               onSubmit={(e) => {
                 e.preventDefault();
