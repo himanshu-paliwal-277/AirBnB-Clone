@@ -18,6 +18,8 @@ const LoginModal = ({ isOpen, onClose }) => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      setEmail(email.trim());
+      setPassword(password.trim());
       await signInWithEmailAndPassword(auth, email, password);
       toast.success("Login successful!");
       console.log("Login successful!");

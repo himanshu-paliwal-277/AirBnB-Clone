@@ -5,21 +5,30 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import PasswordInput from "../PasswordInput/PasswordInput.jsx";
-import { TextField, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import {
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+} from "@mui/material";
 import cross_icon from "../../assets/icons/cross-icon.svg";
 
 Modal.setAppElement("#root"); // Accessibility
 
 const SignUpModal = ({ isOpen, onClose }) => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [username, setUsername] = useState("");
-  const [role, setRole] = useState(""); // New state for role selection
+  const [role, setRole] = useState("");
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
       // Create user with email and password
+      setUsername(username.trim());
+      setEmail(email.trim());
+      setPassword(password.trim());
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -35,12 +44,12 @@ const SignUpModal = ({ isOpen, onClose }) => {
         await setDoc(doc(db, "Users", user.uid), {
           email: user.email,
           username: username,
-          role: role, // Add the selected role
+          role: role,
         });
       }
 
       toast.success("Sign-up successful!");
-      onClose(); // Close the modal after successful sign-up
+      onClose();
     } catch (error) {
       toast.error(`${error.message}`);
     }

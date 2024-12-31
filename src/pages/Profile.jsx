@@ -2,6 +2,9 @@ import { useAuth } from "../context/AuthContext";
 import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { toast } from "react-toastify";
+import { auth } from "../firebase/firebase.js";
+import { useNavigate } from "react-router-dom";
+
 
 function Profile() {
   const { currentUser, updateUserProfile } = useAuth(); // Access updateUserProfile
@@ -12,6 +15,7 @@ function Profile() {
     role: currentUser?.role || "",
   });
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Reset form data to default values when modal opens
   useEffect(() => {
@@ -49,6 +53,18 @@ function Profile() {
       toast.error("Failed to update profile.");
     }
   };
+
+  async function handleLogout() {
+      try {
+        await auth.signOut();
+        console.log("Logout successful!");
+        navigate("/");
+        toast.success("Logout successful!");
+      } catch (error) {
+        console.error(error);
+        toast.error("Error in log out");
+      }
+    }
 
   return (
     <>
@@ -95,6 +111,18 @@ function Profile() {
               className="border border-black rounded px-3 py-1 text-black hover:bg-gray-200"
             >
               Edit profile
+            </button>
+            <button
+              onClick={() => navigate("/host/dashboard/")}
+              className={`${currentUser.role === "host" ? "" : "hidden"} border sm:hidden border-black rounded px-3 py-1 text-black hover:bg-gray-200`}
+            >
+              Host Dashboard
+            </button>
+            <button
+              onClick={handleLogout}
+              className="border sm:hidden mt-10 mb-10 w-full block border-black rounded-lg font-semibold px-3 py-2 text-black hover:bg-gray-200"
+            >
+              Log out
             </button>
           </div>
         </div>

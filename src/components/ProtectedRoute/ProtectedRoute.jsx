@@ -26,9 +26,12 @@ const ProtectedRoute = ({ rolesRequired, children }) => {
 
   if (isLoading)
     return (
-      <div className="xl:px-20 lg:px-10 sm:px-10 px-6 py-10 mb-44">
-        <PageLoader />
-      </div>
+      <>
+        <div className="xl:px-20 lg:px-10 sm:px-10 px-6 py-10 mb-44 hidden sml:block">
+          <PageLoader />
+        </div>
+        <div className="sm:hidden block xl:px-20 lg:px-10 sm:px-10 px-6 py-10">loading...</div>
+      </>
     );
 
   // If no user is logged in or if their role is not one of the allowed roles

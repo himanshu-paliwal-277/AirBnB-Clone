@@ -99,7 +99,7 @@ function Bookings() {
     <>
       <div className="xl:px-40 lg:px-10 sm:px-10 px-6 py-10">
         <div className="relative">
-          <h1 className="text-3xl font-semibold mb-8 sm:mb-0">Requests to book</h1>
+          <h1 className="text-3xl font-semibold mb-8 sm:mb-0">Request to Book</h1>
           {/* back button */}
           <button
             onClick={() => navigate(-1)}

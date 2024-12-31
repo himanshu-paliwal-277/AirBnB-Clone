@@ -14,7 +14,9 @@ import Favorites from "./pages/Favorites";
 import Profile from "./pages/Profile";
 import Bookings from "./pages/Bookings";
 import SuccessPage from "./pages/SuccessPage";
-// import Favorites from "./pages/Favorites";
+import LoginPageForMobile from "./pages/loginPageForMobile";
+import Trips from "./pages/Trips";
+import Messages from "./pages/messages";
 
 function App() {
   return (
@@ -26,6 +28,7 @@ function App() {
           <Route index element={<Home />}></Route>
           {/* Listing Details Route */}
           <Route path="/listing-details/:id" element={<ListingDetails />} />
+          <Route path="/login" element={<LoginPageForMobile />} />
           {/* Protected Host Routes */}
           <Route
             path="/host/dashboard"
@@ -91,12 +94,28 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route
+            path="/trips"
+            element={
+              <ProtectedRoute rolesRequired={["host", "user"]}>
+                <Trips />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/messages"
+            element={
+              <ProtectedRoute rolesRequired={["host", "user"]}>
+                <Messages />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Fallback Route */}
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
-      <ToastContainer position="bottom-right" autoClose={2000}  />
+      <ToastContainer position="bottom-right" autoClose={2000} />
     </>
   );
 }

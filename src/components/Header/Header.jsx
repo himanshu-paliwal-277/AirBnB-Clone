@@ -1,4 +1,3 @@
-import search_icon from "../../assets/icons/search-icon.svg";
 import world_icon from "../../assets/icons/world-icon.svg";
 import menu_icon from "../../assets/icons/menu-icon.svg";
 import user_icon from "../../assets/icons/user-icon-2.svg";
@@ -27,7 +26,7 @@ function Header() {
     try {
       await auth.signOut();
       console.log("Logout successful!");
-      setMenuOpen(false); 
+      setMenuOpen(false);
       navigate("/");
       toast.success("Logout successful!");
     } catch (error) {
@@ -71,7 +70,7 @@ function Header() {
                 : "flex items-center justify-center"
             }`}
           >
-            <SearchBar />
+            <SearchBar device="desktop" />
           </div>
 
           {/* Right Section */}
@@ -109,16 +108,8 @@ function Header() {
         </div>
 
         {/* Mobile Header */}
-        <div className="sm:hidden flex pt-3 mb-4">
-          <button
-            className="rounded-full w-full py-4 font-semibold"
-            style={{ boxShadow: "0px 1px 10px #00000029" }}
-          >
-            <div className="flex items-center justify-center gap-2">
-              <img className="w-3 h-3" src={search_icon} alt="search icon" />
-              <span>Start your search</span>
-            </div>
-          </button>
+        <div className={`${path.pathname === "/" ? "" : "hidden"} sm:hidden flex pt-3 mb-4`}>
+          <SearchBar device="mobile" />
         </div>
 
         {/* Navbar */}
@@ -132,7 +123,7 @@ function Header() {
         isOpen={isMenuOpen}
         onRequestClose={() => setMenuOpen(false)}
         className={`fixed top-20 w-60 bg-white rounded-lg ${
-          path.pathname === "/" ? "right-20 " : "right-40 "
+          path.pathname.startsWith("/listing-details/") ? "xl:right-40 sm:right-10" : "xl:right-20 sm:right-10"
         }`}
         overlayClassName="fixed inset-0 z-20"
       >
@@ -190,13 +181,13 @@ function Header() {
                 >
                   Host Dashboard
                 </button>
-                <button className="py-2 px-5 w-full text-start rounded hover:bg-gray-100">
+                <button onClick={() => {navigate("/messages"); setMenuOpen(false)}} className="py-2 px-5 w-full text-start rounded hover:bg-gray-100">
                   Messages
                 </button>
                 <button className="py-2 px-5 w-full text-start rounded hover:bg-gray-100">
                   Notifications
                 </button>
-                <button className="py-2 px-5 w-full text-start rounded hover:bg-gray-100">
+                <button onClick={() => {navigate("/trips"); setMenuOpen(false)}} className="py-2 px-5 w-full text-start rounded hover:bg-gray-100">
                   Trips
                 </button>
                 <button

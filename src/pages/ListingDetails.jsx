@@ -4,6 +4,7 @@ import swimming_pool_icon from "../assets/icons/swimming-pool-icon.svg";
 import arrow_icon from "../assets/icons/arrow.svg";
 import bag_icon from "../assets/icons/bag.svg";
 import heart_icon from "../assets/icons/heart-icon-3.svg";
+import heart_icon_filled from "../assets/icons/heart-icon-filled.svg";
 import share_icon from "../assets/icons/share-icon.svg";
 import music_icon from "../assets/icons/music.svg";
 import Bookmark_icon from "../assets/icons/Bookmark-icon.svg";
@@ -16,7 +17,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import BookingSummaryCard from "../components/BookingSummaryCard/BookingSummaryCard";
 import ImageSlider from "../components/ImageSlider/ImageSlider";
 import { formatNumberWithCommas } from "../utils/formatNumberWithCommas.js";
-// import { useLists } from "../context/ListContext.jsx";
+import { useFavorites } from "../context/FavoritesContext.jsx";
+import { useAuth } from "../context/AuthContext.jsx";
+import { getHostData } from "../utils/getHostData.js";
+import { formatDate } from "../utils/formateDate.js";
 
 function ListingDetails() {
   const param = useParams();
@@ -28,6 +32,12 @@ function ListingDetails() {
   const [propertyDetails, setPropertyDetails] = useState([1, 1, 8, 4]); // [guests, bedrooms, beds, bathrooms]
   const navigate = useNavigate();
   const [list, setList] = useState();
+  const { favorites, toggleFavorite } = useFavorites();
+  const isFavorite = favorites.includes(param.id);
+  const { currentUser } = useAuth();
+  const [hostDetails, setHostDetails] = useState({});
+  const [date1, setDate1] = useState(null);
+  const [date2, setDate2] = useState(null);
 
   const getListById = (id) => {
     const listings = JSON.parse(localStorage.getItem("listings") || "[]"); // Parse and provide a fallback empty array
@@ -71,6 +81,24 @@ function ListingDetails() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    const fetchHostDetails = async () => {
+      if (list?.hostUid) {
+        try {
+          const data = await getHostData(list.hostUid); // Wait for the data to be fetched
+          setHostDetails(data); // Set the data in state
+          console.log("hostDetails = ", data); // Log the fetched data
+        } catch (error) {
+          console.error("Error fetching host details:", error);
+        }
+      }
+    };
+
+    fetchHostDetails(); // Call the async function
+    setDate1(localStorage.getItem("date1"));
+    setDate2(localStorage.getItem("date2"));
+  }, [list]); // Re-run effect when `list` changes
 
   function handleReserve() {
     navigate(`/booking/${param.id}`);
@@ -122,10 +150,17 @@ function ListingDetails() {
                   alt="share icon"
                 />
               </button>
-              <button className="rounded-full  shadow-lg w-[34px] h-[34px] flex justify-center items-center bg-white">
+              <button
+                onClick={() => {
+                  if (currentUser) {
+                    toggleFavorite(param.id);
+                  }
+                }}
+                className="rounded-full  shadow-lg w-[34px] h-[34px] flex justify-center items-center bg-white"
+              >
                 <img
                   className="w-4 scale-90"
-                  src={heart_icon}
+                  src={isFavorite ? heart_icon_filled : heart_icon}
                   alt="heart icon"
                 />
               </button>
@@ -141,16 +176,16 @@ function ListingDetails() {
         } border-b border-gray-300 bg-white font-semibold transition-transform duration-300`}
       >
         <ul className="flex gap-6 sm:text-base text-sm">
-          <li className="pt-[30px] pb-[26px] border-b-4 border-white hover:border-gray-500 cursor-pointer">
+          <li className="pt-[30px] pb-[26px] border-b-4 border-white sm:hover:border-gray-500 cursor-pointer">
             <a href="#photos">Photos</a>
           </li>
-          <li className="pt-[30px] pb-[26px] border-b-4 border-white hover:border-gray-500 cursor-pointer">
+          <li className="pt-[30px] pb-[26px] border-b-4 border-white sm:hover:border-gray-500 cursor-pointer">
             <a href="#amenities">Amenities</a>
           </li>
-          <li className="pt-[30px] pb-[26px] border-b-4 border-white hover:border-gray-500 cursor-pointer">
+          <li className="pt-[30px] pb-[26px] border-b-4 border-white sm:hover:border-gray-500 cursor-pointer">
             <a href="#review">Reviews</a>
           </li>
-          <li className="pt-[30px] pb-[26px] border-b-4 border-white hover:border-gray-500 cursor-pointer">
+          <li className="pt-[30px] pb-[26px] border-b-4 border-white sm:hover:border-gray-500 cursor-pointer">
             <a href="#location">Location</a>
           </li>
         </ul>
@@ -318,7 +353,7 @@ function ListingDetails() {
           <div className="py-12 border-b border-gray-300">
             <div>
               <h1 className="text-[22px] font-semibold">
-                5 nights in Nagla Megha
+                {localStorage.getItem("numberOfNights")} nights in {list?.location}
               </h1>
               <p className="text-gray-500 text-sm">19 Dec 2024 - 24 Dec 2024</p>
             </div>
@@ -349,11 +384,19 @@ function ListingDetails() {
       {/* section 3 */}
       <section
         id="review"
-        className="xl:mx-[160px] sm:mx-10 px-6 py-12 border-gray-300 border-b"
+        className={`${
+          reviewsCount === 0 ? "hidden" : ""
+        } xl:mx-[160px] sm:mx-10 px-6 py-12 border-gray-300 border-b`}
       >
         <div className="md:w-[40%] ">
           <div>
-            <h1 className="text-[26px] font-semibold">1 review</h1>
+            <h1 className="text-[26px] font-semibold">
+              {reviewsCount === 0
+                ? "no reviews yet"
+                : reviewsCount + 1 === 1
+                ? "1 review"
+                : reviewsCount + 1 + " reviews"}
+            </h1>
             <p className="text-gray-500">
               Average rating will appear after 3 reviews
             </p>
@@ -362,7 +405,7 @@ function ListingDetails() {
             <img
               className="w-12 h-12 rounded-full"
               src="https://a0.muscache.com/im/pictures/user/7ddc6e6e-50ce-42a7-bd74-3c52856e31f5.jpg?im_w=240&im_format=avif"
-              alt=""
+              alt="user image"
             />
             <div>
               <h3 className="text-lg font-semibold">Tarini</h3>
@@ -448,13 +491,15 @@ function ListingDetails() {
               style={{ boxShadow: "rgba(0, 0, 0, 0.24) 0px 2px 8px 2px" }}
             >
               <div className="flex flex-col items-center ">
-                <img
-                  className="rounded-full sm:w-24 sm:h-24 w-20 h-20 object-cover"
-                  src="https://a0.muscache.com/im/pictures/user/9c999b5e-a377-46fc-b0b4-d7aecd62bd29.jpg?im_w=240&im_format=avif 1x"
-                  alt=""
-                />
+                <div
+                  className={`flex items-center bg-black justify-center text-white w-20 h-20 text-4xl font-semibold rounded-full`}
+                >
+                  <span>
+                    {hostDetails?.username && hostDetails?.username.slice(0, 1)}
+                  </span>
+                </div>
                 <h2 className="font-semibold sm:text-3xl text-2xl mt-2">
-                  Gursimran
+                  {hostDetails?.username && hostDetails?.username.split(" ")[0]}
                 </h2>
                 <p>Host</p>
               </div>
@@ -499,24 +544,6 @@ function ListingDetails() {
           </div>
 
           <div className="flex-1 xl:mr-12">
-            <div className="pt-12">
-              <h2 className="text-xl font-semibold">Co-Hosts</h2>
-              <div className="flex gap-6 mt-4">
-                <div className="flex items-center gap-3">
-                  <button className="w-10 h-10 text-sm bg-black text-white flex justify-center items-center font-semibold rounded-full">
-                    N
-                  </button>
-                  <span>Neeraj</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <button className="w-10 h-10 text-sm bg-black text-white flex justify-center items-center font-semibold rounded-full">
-                    R
-                  </button>
-                  <span>Rohan</span>
-                </div>
-              </div>
-            </div>
-
             <div className="border-b pb-10 border-gray-300">
               <h2 className="text-xl font-semibold mb-4 mt-7">Host details</h2>
               <p>Response rate: 100%</p>
@@ -586,6 +613,15 @@ function ListingDetails() {
         </div>
       </section>
 
+      {/* booking summary for mobile */}
+      <div className="sm:hidden block px-6">
+      <BookingSummaryCard
+            originalPrice={originalPrice}
+            discountedPrice={discountedPrice}
+            handleReserve={handleReserve}
+          />
+      </div>
+
       {/* bottom bar booking summary */}
       <div className="flex sm:hidden h-20 px-6 bg-white border-t-[1px] border-gray-300 fixed bottom-0 z-20 w-full">
         <div
@@ -601,7 +637,7 @@ function ListingDetails() {
               </span>
               <span>night</span>
             </div>
-            <span className="text-xs text-gray-800">{"5-10 Jan"}</span>
+            <span className="text-xs text-gray-800">{formatDate(date1)} - {formatDate(date2)}</span>
           </div>
           <button
             onClick={handleReserve}

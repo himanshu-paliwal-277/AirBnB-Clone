@@ -4,6 +4,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { formatDate } from "../../utils/formateDate";
 import PageLoader from "../../components/Loader/PageLoader";
 import { formatNumberWithCommas } from "../../utils/formatNumberWithCommas";
+import { formatDateToReadable } from "../../utils/formateDate";
 
 const ViewBookingRequests = () => {
   const [bookingRequests, setBookingRequests] = useState([]);
@@ -66,6 +67,10 @@ const ViewBookingRequests = () => {
               <p>
                 <strong>Total Price:</strong>{" "}
                 {formatNumberWithCommas(request.price)}
+              </p>
+              <p>
+                <strong>Booking Date:</strong>{" "}
+                {formatDateToReadable(request.createdAt)}
               </p>
             </div>
           ))}
