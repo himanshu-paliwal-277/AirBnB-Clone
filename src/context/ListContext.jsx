@@ -26,6 +26,7 @@ export const ListProvider = ({ children }) => {
         ...doc.data(),
       }));
       setListings(fetchedLists);
+      localStorage.setItem("listings", JSON.stringify(fetchedLists));
       setFilteredListings(fetchedLists); // Initialize filtered listings
     } catch (error) {
       console.error("Error fetching listings:", error);

@@ -1,5 +1,5 @@
 import { ErrorBoundary } from "react-error-boundary";
-import warning_image from "../../assets/warning.png";
+import warning_image from "../../assets/images/warning.png";
 import { useNavigate } from "react-router-dom";
 
 function CustomErrorBoundaryUI({ error, resetErrorBoundary }) {

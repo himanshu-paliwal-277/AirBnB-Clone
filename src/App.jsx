@@ -12,6 +12,8 @@ import NotFound from "./pages/NotFound";
 import { ToastContainer } from "react-toastify";
 import Favorites from "./pages/Favorites";
 import Profile from "./pages/Profile";
+import Bookings from "./pages/Bookings";
+import SuccessPage from "./pages/SuccessPage";
 // import Favorites from "./pages/Favorites";
 
 function App() {
@@ -70,6 +72,22 @@ function App() {
             element={
               <ProtectedRoute rolesRequired={["host", "user"]}>
                 <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/booking/:id"
+            element={
+              <ProtectedRoute rolesRequired={["host", "user"]}>
+                <Bookings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/booking/success"
+            element={
+              <ProtectedRoute rolesRequired={["host", "user"]}>
+                <SuccessPage />
               </ProtectedRoute>
             }
           />

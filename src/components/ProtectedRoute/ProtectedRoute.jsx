@@ -26,7 +26,7 @@ const ProtectedRoute = ({ rolesRequired, children }) => {
 
   if (isLoading)
     return (
-      <div className="xl:px-20 lg:px-10 sm:px-10 px-6 py-10">
+      <div className="xl:px-20 lg:px-10 sm:px-10 px-6 py-10 mb-44">
         <PageLoader />
       </div>
     );

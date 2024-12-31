@@ -79,19 +79,17 @@ function Footer() {
 
   const [isLgScreen, setIsLgScreen] = useState(false);
 
-  // Check if the screen size is 'lg'
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsLgScreen(window.innerWidth >= 768); // lg breakpoint (1024px)
+      setIsLgScreen(window.innerWidth >= 768);
     };
 
-    checkScreenSize(); // Initial check
-    window.addEventListener("resize", checkScreenSize); // Update on resize
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
 
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
-  // Helper function for tab classes
   const getTabClasses = (index) =>
     `py-2 mx-2 ${
       activeTab === index
@@ -103,8 +101,12 @@ function Footer() {
     <footer className="bg-[#f7f7f7]">
       {/* Inspiration Section */}
       <div
-        className={`border-b border-gray-300 py-12 ${
-          path.pathname === "/" ? "sm:px-10 xl:px-[80px] px-6" : "xl:px-20 sm:px-10 px-6"
+        className={`${
+          path.pathname.startsWith("/booking/") && "hidden"
+        } border-b border-gray-300 py-12 ${
+          path.pathname === "/"
+            ? "sm:px-10 xl:px-[80px] px-6"
+            : "xl:px-20 sm:px-10 px-6"
         }`}
       >
         <h1 className="mb-4 text-2xl font-semibold">
@@ -112,7 +114,12 @@ function Footer() {
         </h1>
 
         {/* Tabs */}
-        <div className="flex border-b border-gray-300 w-full overflow-x-auto lg:overflow-x-hidden" style={{scrollbarWidth: "none"}}>
+        <div
+          className={`${
+            path.pathname.startsWith("/booking/") && "hidden"
+          } flex border-b border-gray-300 w-full overflow-x-auto lg:overflow-x-hidden`}
+          style={{ scrollbarWidth: "none" }}
+        >
           {tabLabels.map((label, index) => (
             <button
               key={index}
@@ -127,7 +134,11 @@ function Footer() {
         </div>
 
         {/* Popular Destinations */}
-        <div className="grid xl:grid-cols-6 lg:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-6 pt-8">
+        <div
+          className={`${
+            path.pathname.startsWith("/booking/") && "hidden"
+          } grid xl:grid-cols-6 lg:grid-cols-3 sm:grid-cols-2 grid-cols-2 gap-6 pt-8`}
+        >
           {(isLgScreen
             ? popularDestinations.slice(0, 11)
             : popularDestinations
@@ -156,10 +167,16 @@ function Footer() {
       {/* Footer Links Section */}
       <div
         className={`sm:pb-0 pb-16 ${
-          path.pathname.startsWith("/listing-details/") ? "xl:px-[160px] sm:px-10 px-6" : "sm:px-10 xl:px-[80px] px-6"
+          path.pathname.startsWith("/listing-details/")
+            ? "xl:px-[160px] sm:px-10 px-6"
+            : "sm:px-10 xl:px-[80px] px-6"
         }`}
       >
-        <div className="flex lg:flex-row flex-col ">
+        <div
+          className={`${
+            path.pathname.startsWith("/booking/") && "hidden"
+          } flex lg:flex-row flex-col`}
+        >
           {footerLinks.map((section, index) => (
             <div key={index} className="py-12 flex-1 border-b border-gray-300">
               <span className="font-semibold">{section.title}</span>

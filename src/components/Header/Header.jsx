@@ -13,6 +13,7 @@ import { useAuth } from "../../context/AuthContext";
 import { auth } from "../../firebase/firebase.js";
 import { useState } from "react";
 import SearchBar from "../SearchBar/SearchBar.jsx";
+import { toast } from "react-toastify";
 
 function Header() {
   const path = useLocation();
@@ -24,13 +25,14 @@ function Header() {
 
   async function handleLogout() {
     try {
-      await auth.signOut(); // Wait for sign-out to complete
+      await auth.signOut();
       console.log("Logout successful!");
-      setMenuOpen(false); // Optional: Close the menu
-      navigate("/"); // Navigate to home
+      setMenuOpen(false); 
+      navigate("/");
+      toast.success("Logout successful!");
     } catch (error) {
       console.error(error);
-      alert("Error in logout");
+      toast.error("Error in log out");
     }
   }
 
@@ -214,7 +216,13 @@ function Header() {
                 <button className="py-2 px-5 w-full text-start rounded hover:bg-gray-100">
                   Host an experience
                 </button>
-                <button onClick={() => {navigate("/profile"); setMenuOpen(false)}} className="py-2 px-5 w-full text-start rounded hover:bg-gray-100">
+                <button
+                  onClick={() => {
+                    navigate("/profile");
+                    setMenuOpen(false);
+                  }}
+                  className="py-2 px-5 w-full text-start rounded hover:bg-gray-100"
+                >
                   Account
                 </button>
               </div>

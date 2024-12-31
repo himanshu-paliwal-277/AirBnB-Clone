@@ -16,13 +16,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import BookingSummaryCard from "../components/BookingSummaryCard/BookingSummaryCard";
 import ImageSlider from "../components/ImageSlider/ImageSlider";
 import { formatNumberWithCommas } from "../utils/formatNumberWithCommas.js";
-import { useLists } from "../context/ListContext.jsx";
+// import { useLists } from "../context/ListContext.jsx";
 
 function ListingDetails() {
   const param = useParams();
-  const { listings } = useLists();
-
-  console.log("param path = ", param.id);
+  // const { listings } = useLists();
 
   const [isVisible, setIsVisible] = useState(false);
   const [isPriceDetailsVisible, setIsPriceDetailsVisible] = useState(false);
@@ -32,12 +30,16 @@ function ListingDetails() {
   const [list, setList] = useState();
 
   const getListById = (id) => {
-    return listings.find((listing) => listing.id === id);
+    const listings = JSON.parse(localStorage.getItem("listings") || "[]"); // Parse and provide a fallback empty array
+    console.log("listings = ", listings);
+    return listings.find((listing) => listing.id === id); // No need for optional chaining after parsing
   };
 
   useEffect(() => {
     setList(getListById(param.id));
-    console.log(list);
+    console.log("list = ", list);
+    console.log("param path = ", param.id);
+
     // Set a random review count when the component mounts
     setReviewsCount(Math.floor(Math.random() * 6));
     setPropertyDetails([
@@ -67,8 +69,12 @@ function ListingDetails() {
     return () => {
       window.removeEventListener("scroll", handleScroll); // Cleanup listener
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  function handleReserve() {
+    navigate(`/booking/${param.id}`);
+  }
 
   const originalPrice = Number(list?.price);
   const discountedPrice = Math.floor(originalPrice - originalPrice * 0.1);
@@ -173,7 +179,10 @@ function ListingDetails() {
                 : reviewsCount + 1 + " reviews"}
             </a>
           </div>
-          <button className="px-10 py-[10px] text-lg bg-[#FF385C] hover:bg-[#FF385C]/90 text-white font-semibold rounded-lg">
+          <button
+            onClick={handleReserve}
+            className="px-10 py-[10px] text-lg bg-[#FF385C] active:bg-[#FF385C] hover:bg-[#FF385C]/90 text-white font-semibold rounded-lg"
+          >
             Reserve
           </button>
         </div>
@@ -332,6 +341,7 @@ function ListingDetails() {
           <BookingSummaryCard
             originalPrice={originalPrice}
             discountedPrice={discountedPrice}
+            handleReserve={handleReserve}
           />
         </div>
       </section>
@@ -593,7 +603,10 @@ function ListingDetails() {
             </div>
             <span className="text-xs text-gray-800">{"5-10 Jan"}</span>
           </div>
-          <button className="sm:px-10 px-4 py-[10px] sm:text-lg bg-[#FF385C] hover:bg-[#FF385C]/90 text-white font-semibold rounded-lg">
+          <button
+            onClick={handleReserve}
+            className="sm:px-10 px-4 py-[10px] sm:text-lg bg-[#FF385C] active:bg-[#FF385C] hover:bg-[#FF385C]/90 text-white font-semibold rounded-lg"
+          >
             Reserve
           </button>
         </div>

@@ -1,14 +1,21 @@
 import DatePicker from "../DatePicker/DatePicker";
 import tag_icon from "../../assets/icons/tag-icon.svg";
 import flag_icon from "../../assets/icons/flag.svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { formatNumberWithCommas } from "../../utils/formatNumberWithCommas";
 
-function BookingSummaryCard({ originalPrice, discountedPrice }) {
+function BookingSummaryCard({ originalPrice, discountedPrice, handleReserve }) {
   const [date1, setDate1] = useState(null);
   const [date2, setDate2] = useState(null);
-  const [dateDifference, setDateDifference] = useState(5); // Default to 5 night
+  const [dateDifference, setDateDifference] = useState(5);
   const [guests, setGuests] = useState("1");
+
+  useEffect(() => {
+    localStorage.setItem("date1", date1);
+    localStorage.setItem("date2", date2);
+    localStorage.setItem("guests", guests);
+    localStorage.setItem("numberOfNights", dateDifference);
+  }, [date1, date2, guests, dateDifference]);
 
   const handleGuestChange = (event) => {
     setGuests(event.target.value);
@@ -20,24 +27,22 @@ function BookingSummaryCard({ originalPrice, discountedPrice }) {
       const endDate = new Date(end);
       if (!isNaN(startDate) && !isNaN(endDate)) {
         const diff = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24));
-        setDateDifference(diff > 0 ? diff : 1); // Default to 1 if negative or zero
+        setDateDifference(diff > 0 ? diff : 1);
       } else {
-        setDateDifference(1); // Reset if invalid
+        setDateDifference(1);
       }
     } else {
-      setDateDifference(1); // Reset if dates are missing
+      setDateDifference(5);
     }
   };
 
   const handleDateChange1 = (date) => {
     setDate1(date);
-    console.log("date1 = ", date1, "date2 = ", date2);
     calculateDateDifference(date, date2);
   };
 
   const handleDateChange2 = (date) => {
     setDate2(date);
-    console.log("date1 = ", date1, "date2 = ", date2);
     calculateDateDifference(date1, date);
   };
 
@@ -65,7 +70,10 @@ function BookingSummaryCard({ originalPrice, discountedPrice }) {
             <div className="grid grid-cols-2 border-b border-gray-500">
               <div className="p-3 border-r border-gray-500">
                 <div className="text-xs font-semibold uppercase">CHECK-IN</div>
-                <DatePicker onDateChange={handleDateChange1} />
+                <DatePicker
+                  onDateChange={handleDateChange1}
+                  maxSeletedDate={date2}
+                />
               </div>
               <div className="p-3">
                 <div className="text-xs font-semibold uppercase">CHECKOUT</div>
@@ -97,7 +105,10 @@ function BookingSummaryCard({ originalPrice, discountedPrice }) {
             </div>
           </div>
 
-          <button className="w-full h-12 text-base bg-[#FF385C] hover:bg-[#FF385C]/90 text-white font-semibold rounded-lg">
+          <button
+            onClick={handleReserve}
+            className="w-full h-12 text-base bg-[#FF385C] active:bg-[#FF385C] hover:bg-[#FF385C]/90 text-white font-semibold rounded-lg"
+          >
             Reserve
           </button>
 
@@ -126,8 +137,8 @@ function BookingSummaryCard({ originalPrice, discountedPrice }) {
         <div>
           <h3 className="text-lg font-semibold">Lower price</h3>
           <p className="text-gray-500">
-            Your dates are ₹3,899 less than the avg. nightly rate of the last 60
-            days.
+            Your dates are ₹734 less than the avg. nightly rate of the last 3
+            months.
           </p>
         </div>
       </div>

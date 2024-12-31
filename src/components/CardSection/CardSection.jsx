@@ -4,7 +4,7 @@ import "swiper/css/pagination";
 import Card from "../Card/Card";
 import { useLists } from "../../context/ListContext";
 import ListingLoader from "../Loader/ListingLoader";
-import empty_box from "../../assets/empty-box.png";
+import empty_box from "../../assets/images/empty-box.png";
 
 const CardSection = () => {
   const { filteredListings, loading } = useLists();

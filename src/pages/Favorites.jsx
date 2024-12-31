@@ -2,7 +2,7 @@ import Card from "../components/Card/Card";
 import { useFavorites } from "../context/FavoritesContext";
 import { useLists } from "../context/ListContext";
 import { useEffect, useState } from "react";
-import empty_box from "../assets/empty-box.png";
+import empty_box from "../assets/images/empty-box.png";
 import ListingLoader from "../components/Loader/ListingLoader";
 
 const Favorites = () => {
@@ -35,12 +35,11 @@ const Favorites = () => {
           </div>
         )}
         <div className="grid xl:grid-cols-4 mb-12 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 mt-2">
-        {loading && arr.map((_, index) => (
-          <ListingLoader key={index} />
-        ))}
+          {loading && arr.map((_, index) => <ListingLoader key={index} />)}
         </div>
         <div className="grid xl:grid-cols-4 mb-12 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-6 mt-2">
-          {!loading && filteredListings?.length > 0 &&
+          {!loading &&
+            filteredListings?.length > 0 &&
             filteredListings?.map((property) => (
               <Card key={property.id} {...property} />
             ))}
