@@ -14,9 +14,9 @@ import Favorites from "./pages/Favorites";
 import Profile from "./pages/Profile";
 import Bookings from "./pages/Bookings";
 import SuccessPage from "./pages/SuccessPage";
-import LoginPageForMobile from "./pages/loginPageForMobile";
 import Trips from "./pages/Trips";
-import Messages from "./pages/messages";
+import Messages from "./pages/Messages";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
           <Route index element={<Home />}></Route>
           {/* Listing Details Route */}
           <Route path="/listing-details/:id" element={<ListingDetails />} />
-          <Route path="/login" element={<LoginPageForMobile />} />
+          <Route path="/login" element={<Login />} />
           {/* Protected Host Routes */}
           <Route
             path="/host/dashboard"

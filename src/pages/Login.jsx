@@ -2,7 +2,7 @@ import { useState } from "react";
 import SignUpModal from "../components/SignUpModal/SignUpModal";
 import LoginModal from "../components/LoginModal/LoginModal";
 
-function LoginPageForMobile() {
+function Login() {
   const [isSignUpOpen, setSignUpOpen] = useState(false);
   const [isLoginOpen, setLoginOpen] = useState(true);
 
@@ -38,4 +38,4 @@ function LoginPageForMobile() {
   );
 }
 
-export default LoginPageForMobile;
+export default Login;
