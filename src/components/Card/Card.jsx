@@ -52,7 +52,7 @@ const Card = ({ images, location, title, rating, dateRange, price, id }) => {
             onSlideChange={handleSlideChange} // Update button visibility on slide change
             pagination={{ clickable: true }}
             modules={[Navigation, Pagination]}
-            className="w-full sm:h-[300px] h-[310px] rounded-xl overflow-hidden"
+            className="w-full sm:h-[300px] h-[304px] rounded-xl overflow-hidden"
           >
             {images.map((img, index) => (
               <SwiperSlide key={index}>

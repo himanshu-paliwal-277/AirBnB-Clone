@@ -1,7 +1,16 @@
 import { useEffect, useState } from "react";
-import { getFirestore, collection, query, where, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { formatDate } from "../utils/formateDate";
+import { formatNumberWithCommas } from "../utils/formatNumberWithCommas";
+import PageLoader from "../components/Loader/PageLoader";
+import { formatDateToReadable } from "../utils/formateDate";
 
 const Trips = () => {
   const [bookings, setBookings] = useState([]); // State to store the bookings
@@ -23,7 +32,15 @@ const Trips = () => {
             id: doc.id, // Include the document ID
             ...doc.data(), // Spread the document fields
           }));
-          setBookings(bookingsData); // Save bookings to state
+
+          // Sort the bookings: latest first, then ascending order
+          const sortedBookings = bookingsData.sort((a, b) => {
+            const dateA = new Date(a.createdAt || a.timestamp);
+            const dateB = new Date(b.createdAt || b.timestamp);
+            return dateB - dateA; // Latest first
+          });
+
+          setBookings(sortedBookings); // Save bookings to state
         }
       } catch (error) {
         console.error("Error fetching bookings:", error);
@@ -33,6 +50,7 @@ const Trips = () => {
     };
 
     fetchBookings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth]);
 
   return (
@@ -40,13 +58,16 @@ const Trips = () => {
       <h1 className="text-3xl font-semibold">Trips</h1>
 
       {loading ? (
-        <p className="mt-6">Loading your trips...</p>
+        <div className="mt-6 flex flex-col gap-6">
+          <PageLoader />
+          <PageLoader />
+        </div>
       ) : bookings.length > 0 ? (
         <div className="mt-6 grid gap-6 lg:gap-10 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:mb-0 mb-10">
           {bookings.map((booking) => (
             <div
               key={booking.id}
-              className="border rounded-lg p-4 lg:p-8 shadow-lg hover:shadow-xl transition"
+              className="border rounded-lg p-4 lg:p-8 shadow-lg hover:shadow-xl transition flex flex-col gap-[2px]"
             >
               <h2 className="text-xl font-semibold mb-2">{booking.location}</h2>
               <p>Guest: {booking.guestName}</p>
@@ -54,8 +75,10 @@ const Trips = () => {
               <p>Start Date: {formatDate(booking.startDate)}</p>
               <p>End Date: {formatDate(booking.endDate)}</p>
               <p>Nights: {booking.nights}</p>
-              <p>Price: ₹{booking.price}</p>
+              <p>Guests: {booking.guests}</p>
+              <p>Price: ₹{formatNumberWithCommas(booking.price)}</p>
               <p>Status: {booking.status}</p>
+              <p>Booking Time: {formatDateToReadable(booking.createdAt)}</p>
             </div>
           ))}
         </div>

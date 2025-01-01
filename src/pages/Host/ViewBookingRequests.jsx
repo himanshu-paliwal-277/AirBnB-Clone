@@ -19,7 +19,13 @@ const ViewBookingRequests = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        setBookingRequests(requests);
+
+        // Sort requests by createdAt (latest first)
+        const sortedRequests = requests.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+
+        setBookingRequests(sortedRequests);
       } catch (error) {
         console.error("Error fetching booking requests: ", error);
       } finally {
@@ -69,7 +75,7 @@ const ViewBookingRequests = () => {
                 {formatNumberWithCommas(request.price)}
               </p>
               <p>
-                <strong>Booking Date:</strong>{" "}
+                <strong>Booking Time:</strong>{" "}
                 {formatDateToReadable(request.createdAt)}
               </p>
             </div>

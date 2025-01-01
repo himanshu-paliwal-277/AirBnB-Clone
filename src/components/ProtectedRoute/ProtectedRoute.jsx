@@ -30,7 +30,9 @@ const ProtectedRoute = ({ rolesRequired, children }) => {
         <div className="xl:px-20 lg:px-10 sm:px-10 px-6 py-10 mb-44 hidden sml:block">
           <PageLoader />
         </div>
-        <div className="sm:hidden block xl:px-20 lg:px-10 sm:px-10 px-6 py-10">loading...</div>
+        <div className="sm:hidden block xl:px-20 lg:px-10 sm:px-10 px-6 pt-10 pb-44">
+          <PageLoader />
+        </div>
       </>
     );
 

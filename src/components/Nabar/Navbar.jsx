@@ -3,6 +3,7 @@ import { categories } from "../../data/categories.js";
 import filter_icon from "../../assets/icons/filter-icon.svg";
 import ArrowButton from "../Button/ArrowButton.jsx";
 import FilterModal from "../FilterModal/FilderModal.jsx";
+import { useLists } from "../../context/ListContext.jsx";
 
 function Navbar() {
   const [activeCategory, setActiveCategory] = useState("historical-homes");
@@ -10,6 +11,7 @@ function Navbar() {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
+  const { setLoading } = useLists();
 
   // Update the scroll states (canScrollLeft, canScrollRight) based on current position
   const updateScrollStates = () => {
@@ -56,6 +58,14 @@ function Navbar() {
     };
   }, []);
 
+  function handleCategoryButtonClick(category) {
+    setActiveCategory(category);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+  }
+
   return (
     <>
       <nav className="flex items-center justify-between sm:py-4 py-1 w-full sticky top-[83px] z-20 bg-white">
@@ -68,7 +78,7 @@ function Navbar() {
             {categories.map((category) => (
               <button
                 key={category.value}
-                onClick={() => setActiveCategory(category.value)}
+                onClick={() => handleCategoryButtonClick(category.value)}
                 className={`flex flex-col items-center gap-2  whitespace-nowrap pb-2 text-xs  
                 border-b-2 border-gray-700 border-opacity-0  
                 ${

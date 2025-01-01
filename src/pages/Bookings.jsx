@@ -59,7 +59,7 @@ function Bookings() {
         guestId: currentUser.uid,
         guestEmail: currentUser.email,
         hostId: propertyToBook.hostUid,
-        createdAt: new Date().toISOString(),
+        createdAt: new Date().toString(),
       };
 
       // Add booking to the bookings collection
