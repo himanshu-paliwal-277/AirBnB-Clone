@@ -26,9 +26,9 @@ const Login = lazy(() => import("./pages/Login"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const pageTransition = {
-  initial: { opacity: 0, y: 50 },
+  initial: { opacity: 0, y: 30 },
   animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -50 },
+  exit: { opacity: 0, y: -10 },
 };
 
 function App() {
@@ -36,22 +36,21 @@ function App() {
 
   return (
     <>
-      <Suspense
-        fallback={
-          <div className="xl:px-20 lg:px-10 sm:px-10 px-6 pb-10">
-            <PageLoader />
-          </div>
-        }
-      >
-        {/* AnimatePresence wraps around Routes to enable route exit animations */}
-        <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
-            {/* Main Layout: Wraps common elements like header or footer */}
-            <Route path="/" element={<MainLayout />}>
-              {/* Default Route: Home Page */}
-              <Route
-                index
-                element={
+      {/* AnimatePresence wraps around Routes to enable route exit animations */}
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
+          {/* Main Layout: Wraps common elements like header or footer */}
+          <Route path="/" element={<MainLayout />}>
+            <Route
+              index
+              element={
+                <Suspense
+                  fallback={
+                    <div className="xl:px-20 lg:px-10 sm:px-10 px-6 pb-10">
+                      <PageLoader />
+                    </div>
+                  }
+                >
                   <motion.div
                     variants={pageTransition}
                     initial="initial"
@@ -61,12 +60,13 @@ function App() {
                   >
                     <Home />
                   </motion.div>
-                }
-              />
-              {/* Listing Details Route */}
-              <Route
-                path="/listing-details/:id"
-                element={
+                </Suspense>
+              }
+            />
+            <Route
+              path="/listing-details/:id"
+              element={
+                <Suspense fallback={<PageLoader />}>
                   <motion.div
                     variants={pageTransition}
                     initial="initial"
@@ -76,11 +76,13 @@ function App() {
                   >
                     <ListingDetails />
                   </motion.div>
-                }
-              />
-              <Route
-                path="/login"
-                element={
+                </Suspense>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <Suspense fallback={<PageLoader />}>
                   <motion.div
                     variants={pageTransition}
                     initial="initial"
@@ -90,13 +92,15 @@ function App() {
                   >
                     <Login />
                   </motion.div>
-                }
-              />
-              {/* Protected Host Routes */}
-              <Route
-                path="/host/dashboard"
-                element={
-                  <ProtectedRoute rolesRequired={["host"]}>
+                </Suspense>
+              }
+            />
+            {/* Protected Host Routes */}
+            <Route
+              path="/host/dashboard"
+              element={
+                <ProtectedRoute rolesRequired={["host"]}>
+                  <Suspense fallback={<PageLoader />}>
                     <motion.div
                       variants={pageTransition}
                       initial="initial"
@@ -106,13 +110,15 @@ function App() {
                     >
                       <HostDashboard />
                     </motion.div>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/host/add-listing"
-                element={
-                  <ProtectedRoute rolesRequired={["host"]}>
+                  </Suspense>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/host/add-listing"
+              element={
+                <ProtectedRoute rolesRequired={["host"]}>
+                  <Suspense fallback={<PageLoader />}>
                     <motion.div
                       variants={pageTransition}
                       initial="initial"
@@ -122,13 +128,15 @@ function App() {
                     >
                       <AddListing />
                     </motion.div>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/host/manage-listings"
-                element={
-                  <ProtectedRoute rolesRequired={["host"]}>
+                  </Suspense>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/host/manage-listings"
+              element={
+                <ProtectedRoute rolesRequired={["host"]}>
+                  <Suspense fallback={<PageLoader />}>
                     <motion.div
                       variants={pageTransition}
                       initial="initial"
@@ -138,13 +146,15 @@ function App() {
                     >
                       <ManageListings />
                     </motion.div>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/host/booking-requests"
-                element={
-                  <ProtectedRoute rolesRequired={["host"]}>
+                  </Suspense>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/host/booking-requests"
+              element={
+                <ProtectedRoute rolesRequired={["host"]}>
+                  <Suspense fallback={<PageLoader />}>
                     <motion.div
                       variants={pageTransition}
                       initial="initial"
@@ -154,13 +164,15 @@ function App() {
                     >
                       <ViewBookingRequests />
                     </motion.div>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/wishlist"
-                element={
-                  <ProtectedRoute rolesRequired={["host", "user"]}>
+                  </Suspense>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/wishlist"
+              element={
+                <ProtectedRoute rolesRequired={["host", "user"]}>
+                  <Suspense fallback={<PageLoader />}>
                     <motion.div
                       variants={pageTransition}
                       initial="initial"
@@ -170,13 +182,15 @@ function App() {
                     >
                       <Favorites />
                     </motion.div>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute rolesRequired={["host", "user"]}>
+                  </Suspense>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute rolesRequired={["host", "user"]}>
+                  <Suspense fallback={<PageLoader />}>
                     <motion.div
                       variants={pageTransition}
                       initial="initial"
@@ -186,13 +200,15 @@ function App() {
                     >
                       <Profile />
                     </motion.div>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/booking/:id"
-                element={
-                  <ProtectedRoute rolesRequired={["host", "user"]}>
+                  </Suspense>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/booking/:id"
+              element={
+                <ProtectedRoute rolesRequired={["host", "user"]}>
+                  <Suspense fallback={<PageLoader />}>
                     <motion.div
                       variants={pageTransition}
                       initial="initial"
@@ -202,13 +218,15 @@ function App() {
                     >
                       <Bookings />
                     </motion.div>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/booking/success"
-                element={
-                  <ProtectedRoute rolesRequired={["host", "user"]}>
+                  </Suspense>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/booking/success"
+              element={
+                <ProtectedRoute rolesRequired={["host", "user"]}>
+                  <Suspense fallback={<PageLoader />}>
                     <motion.div
                       variants={pageTransition}
                       initial="initial"
@@ -218,13 +236,15 @@ function App() {
                     >
                       <SuccessPage />
                     </motion.div>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/trips"
-                element={
-                  <ProtectedRoute rolesRequired={["host", "user"]}>
+                  </Suspense>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/trips"
+              element={
+                <ProtectedRoute rolesRequired={["host", "user"]}>
+                  <Suspense fallback={<PageLoader />}>
                     <motion.div
                       variants={pageTransition}
                       initial="initial"
@@ -234,13 +254,15 @@ function App() {
                     >
                       <Trips />
                     </motion.div>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/messages"
-                element={
-                  <ProtectedRoute rolesRequired={["host", "user"]}>
+                  </Suspense>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/messages"
+              element={
+                <ProtectedRoute rolesRequired={["host", "user"]}>
+                  <Suspense fallback={<PageLoader />}>
                     <motion.div
                       variants={pageTransition}
                       initial="initial"
@@ -250,14 +272,15 @@ function App() {
                     >
                       <Messages />
                     </motion.div>
-                  </ProtectedRoute>
-                }
-              />
-
-              {/* Fallback Route */}
-              <Route
-                path="*"
-                element={
+                  </Suspense>
+                </ProtectedRoute>
+              }
+            />
+            {/* Fallback Route */}
+            <Route
+              path="*"
+              element={
+                <Suspense fallback={<PageLoader />}>
                   <motion.div
                     variants={pageTransition}
                     initial="initial"
@@ -267,12 +290,12 @@ function App() {
                   >
                     <NotFound />
                   </motion.div>
-                }
-              />
-            </Route>
-          </Routes>
-        </AnimatePresence>
-      </Suspense>
+                </Suspense>
+              }
+            />
+          </Route>
+        </Routes>
+      </AnimatePresence>
       <ToastContainer position="bottom-right" autoClose={2000} />
     </>
   );
