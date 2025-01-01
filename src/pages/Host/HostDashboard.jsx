@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { db } from "../../firebase/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { formatDateToReadable } from "../../utils/formateDate";
 import BookingChart from "../../components/BookingChart/BookingChart";
 import PageLoader from "../../components/Loader/PageLoader";
+import { useAuth } from "../../context/AuthContext";
 
 const HostDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [chartData, setChartData] = useState({ labels: [], values: [] });
+  const { currentUser } = useAuth();
 
   // Parse custom date format
   const parseCustomDate = (dateString) => {
@@ -39,7 +41,11 @@ const HostDashboard = () => {
   useEffect(() => {
     const fetchBookingRequests = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "bookings"));
+        // Query to get bookings for the current host
+        const bookingsRef = collection(db, "bookings");
+        const q = query(bookingsRef, where("hostId", "==", currentUser.uid));
+        const querySnapshot = await getDocs(q);
+
         const requests = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
@@ -62,7 +68,7 @@ const HostDashboard = () => {
 
     fetchBookingRequests();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [currentUser]);
 
   return (
     <>
