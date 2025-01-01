@@ -10,13 +10,13 @@ const SearchBar = ({ device = "desktop" }) => {
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
 
   function handleSearchButtonClick() {
-    searchListings(searchQuery);
+    searchListings(searchQuery.trim());
     if (searchQuery.trim() !== "") {
       setLoading(true);
       setTimeout(() => {
         setLoading(false);
       }, 1000);
-      setLocation(searchQuery);
+      setLocation(searchQuery.trim());
     }
     console.log("searchQuery - ", searchQuery);
   }

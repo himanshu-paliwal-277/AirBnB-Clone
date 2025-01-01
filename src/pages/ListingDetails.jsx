@@ -46,6 +46,7 @@ function ListingDetails() {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     setList(getListById(param.id));
     console.log("list = ", list);
     console.log("param path = ", param.id);

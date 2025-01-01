@@ -3,7 +3,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination } from "swiper/modules";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ArrowButton from "../Button/ArrowButton";
 import star_icon from "../../assets/icons/star-icon.svg";
 import heart_icon from "../../assets/icons/heart-icon.svg";
@@ -13,6 +13,7 @@ import { formatNumberWithCommas } from "../../utils/formatNumberWithCommas";
 import { useFavorites } from "../../context/FavoritesContext";
 import LoginModal from "../LoginModal/LoginModal";
 import { useAuth } from "../../context/AuthContext";
+import { motion } from "framer-motion"; // Import Framer Motion
 
 const Card = ({ images, location, title, rating, dateRange, price, id }) => {
   const swiperRef = useRef(null);
@@ -39,6 +40,14 @@ const Card = ({ images, location, title, rating, dateRange, price, id }) => {
     swiperRef.current?.slideNext();
   }
 
+  // Animation state for image mounting
+  const [isImageVisible, setIsImageVisible] = useState(false);
+
+  useEffect(() => {
+    // Set image visibility to true when the card is mounted
+    setIsImageVisible(true);
+  }, []);
+
   return (
     <>
       <div
@@ -56,10 +65,13 @@ const Card = ({ images, location, title, rating, dateRange, price, id }) => {
           >
             {images.map((img, index) => (
               <SwiperSlide key={index}>
-                <img
+                <motion.img
                   src={img}
                   alt={`slide-${index}`}
                   className="w-full h-full object-cover"
+                  initial={{ opacity: 0 }} // Start with 0 opacity
+                  animate={{ opacity: isImageVisible ? 1 : 0 }} // Fade in effect
+                  transition={{ duration: 1 }} // Set the duration of the fade-in animation
                 />
               </SwiperSlide>
             ))}

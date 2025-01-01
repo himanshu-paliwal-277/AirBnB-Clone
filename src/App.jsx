@@ -1,120 +1,278 @@
-import { Route, Routes } from "react-router-dom";
+import { Suspense, lazy } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
-import Home from "./pages/Home";
-import ListingDetails from "./pages/ListingDetails";
 import "react-toastify/dist/ReactToastify.css"; // Import Toastify's styles
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
-import HostDashboard from "./pages/Host/HostDashboard";
-import AddListing from "./pages/Host/AddListing";
-import ManageListings from "./pages/Host/ManageListings";
-import ViewBookingRequests from "./pages/Host/ViewBookingRequests";
-import NotFound from "./pages/NotFound";
 import { ToastContainer } from "react-toastify";
-import Favorites from "./pages/Favorites";
-import Profile from "./pages/Profile";
-import Bookings from "./pages/Bookings";
-import SuccessPage from "./pages/SuccessPage";
-import Trips from "./pages/Trips";
-import Messages from "./pages/Messages";
-import Login from "./pages/Login";
+import PageLoader from "./components/Loader/PageLoader";
+import { AnimatePresence, motion } from "framer-motion"; // Framer Motion for animations
+
+// Lazy-loaded components
+const Home = lazy(() => import("./pages/Home"));
+const ListingDetails = lazy(() => import("./pages/ListingDetails"));
+const HostDashboard = lazy(() => import("./pages/Host/HostDashboard"));
+const AddListing = lazy(() => import("./pages/Host/AddListing"));
+const ManageListings = lazy(() => import("./pages/Host/ManageListings"));
+const ViewBookingRequests = lazy(() =>
+  import("./pages/Host/ViewBookingRequests")
+);
+const Favorites = lazy(() => import("./pages/Favorites"));
+const Profile = lazy(() => import("./pages/Profile"));
+const Bookings = lazy(() => import("./pages/Bookings"));
+const SuccessPage = lazy(() => import("./pages/SuccessPage"));
+const Trips = lazy(() => import("./pages/Trips"));
+const Messages = lazy(() => import("./pages/Messages"));
+const Login = lazy(() => import("./pages/Login"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+const pageTransition = {
+  initial: { opacity: 0, y: 50 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -50 },
+};
 
 function App() {
+  const location = useLocation();
+
   return (
     <>
-      <Routes>
-        {/* Main Layout: Wraps common elements like header or footer */}
-        <Route path="/" element={<MainLayout />}>
-          {/* Default Route: Home Page */}
-          <Route index element={<Home />}></Route>
-          {/* Listing Details Route */}
-          <Route path="/listing-details/:id" element={<ListingDetails />} />
-          <Route path="/login" element={<Login />} />
-          {/* Protected Host Routes */}
-          <Route
-            path="/host/dashboard"
-            element={
-              <ProtectedRoute rolesRequired={["host"]}>
-                <HostDashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/host/add-listing"
-            element={
-              <ProtectedRoute rolesRequired={["host"]}>
-                <AddListing />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/host/manage-listings"
-            element={
-              <ProtectedRoute rolesRequired={["host"]}>
-                <ManageListings />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/host/booking-requests"
-            element={
-              <ProtectedRoute rolesRequired={["host"]}>
-                <ViewBookingRequests />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/wishlist"
-            element={
-              <ProtectedRoute rolesRequired={["host", "user"]}>
-                <Favorites />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute rolesRequired={["host", "user"]}>
-                <Profile />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/booking/:id"
-            element={
-              <ProtectedRoute rolesRequired={["host", "user"]}>
-                <Bookings />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/booking/success"
-            element={
-              <ProtectedRoute rolesRequired={["host", "user"]}>
-                <SuccessPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/trips"
-            element={
-              <ProtectedRoute rolesRequired={["host", "user"]}>
-                <Trips />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/messages"
-            element={
-              <ProtectedRoute rolesRequired={["host", "user"]}>
-                <Messages />
-              </ProtectedRoute>
-            }
-          />
+      <Suspense
+        fallback={
+          <div className="xl:px-20 lg:px-10 sm:px-10 px-6 pb-10">
+            <PageLoader />
+          </div>
+        }
+      >
+        {/* AnimatePresence wraps around Routes to enable route exit animations */}
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
+            {/* Main Layout: Wraps common elements like header or footer */}
+            <Route path="/" element={<MainLayout />}>
+              {/* Default Route: Home Page */}
+              <Route
+                index
+                element={
+                  <motion.div
+                    variants={pageTransition}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Home />
+                  </motion.div>
+                }
+              />
+              {/* Listing Details Route */}
+              <Route
+                path="/listing-details/:id"
+                element={
+                  <motion.div
+                    variants={pageTransition}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{ duration: 0.5 }}
+                  >
+                    <ListingDetails />
+                  </motion.div>
+                }
+              />
+              <Route
+                path="/login"
+                element={
+                  <motion.div
+                    variants={pageTransition}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Login />
+                  </motion.div>
+                }
+              />
+              {/* Protected Host Routes */}
+              <Route
+                path="/host/dashboard"
+                element={
+                  <ProtectedRoute rolesRequired={["host"]}>
+                    <motion.div
+                      variants={pageTransition}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={{ duration: 0.5 }}
+                    >
+                      <HostDashboard />
+                    </motion.div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/host/add-listing"
+                element={
+                  <ProtectedRoute rolesRequired={["host"]}>
+                    <motion.div
+                      variants={pageTransition}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={{ duration: 0.5 }}
+                    >
+                      <AddListing />
+                    </motion.div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/host/manage-listings"
+                element={
+                  <ProtectedRoute rolesRequired={["host"]}>
+                    <motion.div
+                      variants={pageTransition}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={{ duration: 0.5 }}
+                    >
+                      <ManageListings />
+                    </motion.div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/host/booking-requests"
+                element={
+                  <ProtectedRoute rolesRequired={["host"]}>
+                    <motion.div
+                      variants={pageTransition}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={{ duration: 0.5 }}
+                    >
+                      <ViewBookingRequests />
+                    </motion.div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/wishlist"
+                element={
+                  <ProtectedRoute rolesRequired={["host", "user"]}>
+                    <motion.div
+                      variants={pageTransition}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Favorites />
+                    </motion.div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute rolesRequired={["host", "user"]}>
+                    <motion.div
+                      variants={pageTransition}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Profile />
+                    </motion.div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/booking/:id"
+                element={
+                  <ProtectedRoute rolesRequired={["host", "user"]}>
+                    <motion.div
+                      variants={pageTransition}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Bookings />
+                    </motion.div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/booking/success"
+                element={
+                  <ProtectedRoute rolesRequired={["host", "user"]}>
+                    <motion.div
+                      variants={pageTransition}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={{ duration: 0.5 }}
+                    >
+                      <SuccessPage />
+                    </motion.div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/trips"
+                element={
+                  <ProtectedRoute rolesRequired={["host", "user"]}>
+                    <motion.div
+                      variants={pageTransition}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Trips />
+                    </motion.div>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/messages"
+                element={
+                  <ProtectedRoute rolesRequired={["host", "user"]}>
+                    <motion.div
+                      variants={pageTransition}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      transition={{ duration: 0.5 }}
+                    >
+                      <Messages />
+                    </motion.div>
+                  </ProtectedRoute>
+                }
+              />
 
-          {/* Fallback Route */}
-          <Route path="*" element={<NotFound />} />
-        </Route>
-      </Routes>
+              {/* Fallback Route */}
+              <Route
+                path="*"
+                element={
+                  <motion.div
+                    variants={pageTransition}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    transition={{ duration: 0.5 }}
+                  >
+                    <NotFound />
+                  </motion.div>
+                }
+              />
+            </Route>
+          </Routes>
+        </AnimatePresence>
+      </Suspense>
       <ToastContainer position="bottom-right" autoClose={2000} />
     </>
   );
