@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { collection, addDoc } from "firebase/firestore";
 import { db, auth } from "../../firebase/firebase"; // Ensure this is your Firebase config file
 import { toast } from "react-toastify";
@@ -69,6 +69,10 @@ const AddListing = () => {
       setImages(images.slice(0, images.length - 1));
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="xl:px-40 lg:px-10 sm:px-10 px-6 py-10 flex justify-center">

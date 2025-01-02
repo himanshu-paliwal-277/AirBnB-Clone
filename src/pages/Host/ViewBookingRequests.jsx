@@ -12,6 +12,7 @@ const ViewBookingRequests = () => {
 
   // Fetch booking requests from Firestore
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchBookingRequests = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "bookings"));

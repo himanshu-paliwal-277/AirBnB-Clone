@@ -108,7 +108,11 @@ function Header() {
         </div>
 
         {/* Mobile Header */}
-        <div className={`${path.pathname === "/" ? "" : "hidden"} sm:hidden flex pt-3 mb-4`}>
+        <div
+          className={`${
+            path.pathname === "/" ? "" : "hidden"
+          } sm:hidden flex pt-3 mb-4`}
+        >
           <SearchBar device="mobile" />
         </div>
 
@@ -123,7 +127,9 @@ function Header() {
         isOpen={isMenuOpen}
         onRequestClose={() => setMenuOpen(false)}
         className={`fixed top-20 w-60 bg-white rounded-lg ${
-          path.pathname.startsWith("/listing-details/") ? "xl:right-40 sm:right-10" : "xl:right-20 sm:right-10"
+          path.pathname.startsWith("/listing-details/")
+            ? "xl:right-40 sm:right-10"
+            : "xl:right-20 sm:right-10"
         }`}
         overlayClassName="fixed inset-0 z-20"
       >
@@ -181,13 +187,34 @@ function Header() {
                 >
                   Host Dashboard
                 </button>
-                <button onClick={() => {navigate("/messages"); setMenuOpen(false)}} className="py-2 px-5 w-full text-start rounded hover:bg-gray-100">
+                <button
+                  onClick={() => {
+                    navigate("/");
+                    setMenuOpen(false);
+                  }}
+                  className={`py-2 px-5 w-full text-start rounded hover:bg-gray-100 `}
+                >
+                  Home
+                </button>
+                <button
+                  onClick={() => {
+                    navigate("/messages");
+                    setMenuOpen(false);
+                  }}
+                  className="py-2 px-5 w-full text-start rounded hover:bg-gray-100"
+                >
                   Messages
                 </button>
                 <button className="py-2 px-5 w-full text-start rounded hover:bg-gray-100">
                   Notifications
                 </button>
-                <button onClick={() => {navigate("/trips"); setMenuOpen(false)}} className="py-2 px-5 w-full text-start rounded hover:bg-gray-100">
+                <button
+                  onClick={() => {
+                    navigate("/trips");
+                    setMenuOpen(false);
+                  }}
+                  className="py-2 px-5 w-full text-start rounded hover:bg-gray-100"
+                >
                   Trips
                 </button>
                 <button

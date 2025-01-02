@@ -70,6 +70,10 @@ const HostDashboard = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <div className="xl:px-20 lg:px-10 sm:px-10 px-6 py-10">

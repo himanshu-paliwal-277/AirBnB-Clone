@@ -74,6 +74,7 @@ const ManageListings = () => {
 
   useEffect(() => {
     fetchListings();
+    window.scrollTo(0, 0);
   }, []); // Empty dependency array to run once on component mount
 
   if (loading) {
