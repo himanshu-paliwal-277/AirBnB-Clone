@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import TextField from "@mui/material/TextField";
 import PasswordInput from "../PasswordInput/PasswordInput.jsx";
 import cross_icon from "../../assets/icons/cross-icon.svg";
-import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion"; // Import motion from framer-motion
 
 Modal.setAppElement("#root"); // Accessibility
@@ -14,7 +13,6 @@ Modal.setAppElement("#root"); // Accessibility
 const LoginModal = ({ isOpen, onClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,7 +23,7 @@ const LoginModal = ({ isOpen, onClose }) => {
       toast.success("Login successful!");
       console.log("Login successful!");
       onClose(); // Close the modal after successful login
-      navigate("/host/dashboard");
+      // navigate("/host/dashboard");
     } catch (error) {
       toast.error(`${error.message}`);
     }

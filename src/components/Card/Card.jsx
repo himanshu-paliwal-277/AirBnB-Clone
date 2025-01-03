@@ -13,17 +13,18 @@ import { formatNumberWithCommas } from "../../utils/formatNumberWithCommas";
 import { useFavorites } from "../../context/FavoritesContext";
 import LoginModal from "../LoginModal/LoginModal";
 import { useAuth } from "../../context/AuthContext";
-import { motion } from "framer-motion"; // Import Framer Motion
+import { motion } from "framer-motion";
 
 const Card = ({ images, location, title, rating, dateRange, price, id }) => {
   const swiperRef = useRef(null);
   const [canSlidePrev, setCanSlidePrev] = useState(false);
   const [canSlideNext, setCanSlideNext] = useState(images?.length > 1);
-  const { favorites, toggleFavorite } = useFavorites(); // Get context values
-  const isFavorite = favorites.includes(id); // Check if current listing is in favorites
+  const { favorites, toggleFavorite } = useFavorites();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+  // Check if current listing is in favorites
+  const isFavorite = favorites.includes(id);
 
   const handleSlideChange = (swiper) => {
     setCanSlidePrev(swiper.isBeginning === false); // Can slide prev if not at the first slide

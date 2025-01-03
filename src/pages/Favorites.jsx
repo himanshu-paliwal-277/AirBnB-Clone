@@ -35,7 +35,7 @@ const Favorites = () => {
         <h1 className="text-3xl sm:text-[32px] font-semibold my-10 ">
           Wishlists
         </h1>
-        {filteredListings.length === 0 && (
+        {!loading && filteredListings.length === 0 && (
           <div className="flex flex-col items-center w-full justify-center">
             <img className="w-28" src={empty_box} alt="empty_box" />
             <p className="text-xl font-semibold mt-2 mb-20">
