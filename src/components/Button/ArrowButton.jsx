@@ -1,6 +1,5 @@
 import arrow from "../../assets/icons/arrow.svg";
 
-// eslint-disable-next-line react/prop-types
 function ArrowButton({onClickHandler, direction, style}) {
   return (
     <>

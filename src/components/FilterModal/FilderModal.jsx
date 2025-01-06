@@ -3,7 +3,11 @@ import cross_icon from "../../assets/icons/cross-icon.svg";
 import RangeSlider from "../InputRange/RangeSlider";
 import { useState } from "react";
 import { useLists } from "../../context/ListContext";
-import { motion } from "framer-motion"; // Import motion from framer-motion
+import { motion } from "framer-motion";
+import RoomAndBedSelector from "../RoomAndBedSelector/RoomAndBedSelector";
+import BarGraph from "../BarGraph/BarGraph";
+import { Amenities } from "../../data/filterSectionAmenities";
+import arrow_icon from "../../assets/icons/arrow.svg";
 
 Modal.setAppElement("#root"); // Accessibility
 
@@ -11,6 +15,10 @@ const FilterModal = ({ isOpen, onClose }) => {
   const { filterByPrice, setLoading } = useLists();
   const [minPrice, setMinPrice] = useState(3000);
   const [maxPrice, setMaxPrice] = useState(15000);
+  const [selectedCategory, setSelectedCategory] = useState("Any type");
+  const [bedroomsCount, setBedroomsCount] = useState(0);
+  const [bedCount, setBedCount] = useState(0);
+  const [bathroomCount, setBathroomCount] = useState(0);
 
   // Handle price filter changes
   const handlePriceFilter = () => {
@@ -32,7 +40,7 @@ const FilterModal = ({ isOpen, onClose }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
-      className="w-[400px] mx-auto"
+      className="w-[560px] mx-auto"
       overlayClassName="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-30"
     >
       <motion.div
@@ -50,60 +58,146 @@ const FilterModal = ({ isOpen, onClose }) => {
         <h2 className="text-lg py-4 border-b border-gray-300 font-semibold mb-2 text-center">
           Filters
         </h2>
-        <div className="p-6">
-          <div>
-            <h1 className="text-xl font-semibold mb-1">Price range</h1>
-            <p className="text-gray-600 text-sm">
-              Nightly prices before fees and taxes
-            </p>
-          </div>
-          <div className="mt-8">
-            <RangeSlider
-              min={850}
-              max={20000}
-              minPrice={minPrice}
-              maxPrice={maxPrice}
-              setMinPrice={setMinPrice}
-              setMaxPrice={setMaxPrice}
-            />
-            <div className="flex justify-between mt-2 text-xs">
-              <div className="flex flex-col items-center">
-                <span className="text-gray-700">Minimum</span>
-                <div className="flex items-center px-6 font-semibold text-sm py-3 mt-2 border border-gray-400 rounded-full outline outline-1 outline-gray-300 w-fit">
-                  <span className="text-gray-600">₹</span>
-                  <input
-                    className="w-[55px] text-center outline-none bg-transparent appearance-none"
-                    type="number"
-                    value={minPrice}
-                    onChange={(e) => setMinPrice(Number(e.target.value) || 0)}
-                    min={850}
-                    max={20000}
-                    style={{
-                      WebkitAppearance: "none",
-                    }}
-                  />
-                </div>
+        {/* main ui */}
+        <div className="h-[500px] overflow-y-scroll">
+          <section className="p-6 border-b border-gray-300">
+            <h1 className="text-xl font-semibold mb-5">Type of place</h1>
+            <div className="flex gap-2  p-[3px] rounded-xl border border-gray-300">
+              <button
+                onClick={() => {
+                  setSelectedCategory("Any type");
+                }}
+                className={`flex-1 font-semibold hover:bg-gray-100 py-2 rounded-xl ${
+                  selectedCategory === "Any type" ? "outline outline-2" : ""
+                }`}
+              >
+                Any type
+              </button>
+              <button
+                onClick={() => {
+                  setSelectedCategory("Room");
+                }}
+                className={`flex-1 font-semibold hover:bg-gray-100 py-2 rounded-xl ${
+                  selectedCategory === "Room" ? "outline outline-2" : ""
+                }`}
+              >
+                Room
+              </button>
+              <button
+                onClick={() => {
+                  setSelectedCategory("Entire home");
+                }}
+                className={`flex-1 font-semibold hover:bg-gray-100 py-2 rounded-xl ${
+                  selectedCategory === "Entire home" ? "outline outline-2" : ""
+                }`}
+              >
+                Entire home
+              </button>
+            </div>
+          </section>
+          <section className="p-6 border-b border-gray-300">
+            <div>
+              <h1 className="text-xl font-semibold mb-1">Price range</h1>
+              <p className="text-gray-600 text-sm">
+                Nightly prices before fees and taxes
+              </p>
+            </div>
+            <div className="mt-4 relative">
+              <div className="">
+                <BarGraph />
               </div>
-              <div className="flex flex-col items-center">
-                <span className="text-gray-700">Maximum</span>
-                <div className="flex items-center px-6 font-semibold text-sm py-3 mt-2 border border-gray-400 rounded-full outline outline-1 outline-gray-300 w-fit">
-                  <span className="text-gray-600">₹</span>
-                  <input
-                    className="w-[55px] text-center outline-none bg-transparent appearance-none"
-                    type="number"
-                    value={maxPrice}
-                    onChange={(e) => setMinPrice(Number(e.target.value) || 0)}
-                    min={850}
-                    max={20000}
-                    style={{
-                      WebkitAppearance: "none",
-                    }}
-                  />
+              <div className="absolute top-[65px] w-full">
+                <RangeSlider
+                  min={850}
+                  max={20000}
+                  minPrice={minPrice}
+                  maxPrice={maxPrice}
+                  setMinPrice={setMinPrice}
+                  setMaxPrice={setMaxPrice}
+                />
+              </div>
+              <div className="flex justify-between mt-8 text-xs">
+                <div className="flex flex-col items-center">
+                  <span className="text-gray-700">Minimum</span>
+                  <div className="flex items-center px-6 font-semibold text-sm py-3 mt-2 border border-gray-400 rounded-full outline outline-1 outline-gray-300 w-fit">
+                    <span className="text-gray-600">₹</span>
+                    <input
+                      className="w-[55px] text-center outline-none bg-transparent appearance-none"
+                      type="number"
+                      value={minPrice}
+                      onChange={(e) => setMinPrice(Number(e.target.value) || 0)}
+                      min={850}
+                      max={20000}
+                      style={{
+                        WebkitAppearance: "none",
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col items-center">
+                  <span className="text-gray-700">Maximum</span>
+                  <div className="flex items-center px-6 font-semibold text-sm py-3 mt-2 border border-gray-400 rounded-full outline outline-1 outline-gray-300 w-fit">
+                    <span className="text-gray-600">₹</span>
+                    <input
+                      className="w-[55px] text-center outline-none bg-transparent appearance-none"
+                      type="number"
+                      value={maxPrice}
+                      onChange={(e) => setMinPrice(Number(e.target.value) || 0)}
+                      min={850}
+                      max={20000}
+                      style={{
+                        WebkitAppearance: "none",
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </section>
+          <section className="p-6 border-b border-gray-300">
+            <h1 className="text-xl font-semibold mb-5">Rooms and beds</h1>
+            <div className="flex flex-col gap-5">
+              <RoomAndBedSelector
+                count={bedroomsCount}
+                setCount={setBedroomsCount}
+                text={"Rooms"}
+              />
+              <RoomAndBedSelector
+                count={bedCount}
+                setCount={setBedCount}
+                text={"Beds"}
+              />
+              <RoomAndBedSelector
+                count={bathroomCount}
+                setCount={setBathroomCount}
+                text={"Bathrooms"}
+              />
+            </div>
+          </section>
+          <section className="p-6 border-b border-gray-300">
+            <h1 className="text-xl font-semibold mb-5">Amenities</h1>
+            <div className="flex flex-wrap gap-2">
+              {Amenities.map((amenity, index) => (
+                <button
+                  key={index}
+                  className="border broder-gray-200 hover:border-gray-700 p-3 rounded-full flex items-center gap-2"
+                >
+                  <img
+                    src={amenity.icon}
+                    alt={`${amenity.name} icon`}
+                    className="w-6 h-6"
+                  />
+                  <span className="text-sm font-medium">{amenity.name}</span>
+                </button>
+              ))}
+            </div>
+            <button className="underline flex gap-2 items-center font-semibold text-lg mt-4">
+              Show more
+              <img className="w-3 rotate-90" src={arrow_icon} alt="arrow_icon" />
+            </button>
+          </section>
         </div>
+        {/* buttons */}
         <div className="py-4 border-t border-gray-300 px-6 flex justify-between">
           <button
             onClick={handleClearPricesRange}

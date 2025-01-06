@@ -10,7 +10,7 @@ import SignUpModal from "../SignUpModal/SignUpModal";
 import LoginModal from "../LoginModal/LoginModal";
 import { useAuth } from "../../context/AuthContext";
 import { auth } from "../../firebase/firebase.js";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "../SearchBar/SearchBar.jsx";
 import { toast } from "react-toastify";
 
@@ -21,6 +21,7 @@ function Header() {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
+  const [isVisible, setIsVisible] = useState(true);
 
   async function handleLogout() {
     try {
@@ -35,6 +36,23 @@ function Header() {
     }
   }
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+
+      if (scrollPosition > 10) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll); // Attach scroll listener
+    return () => {
+      window.removeEventListener("scroll", handleScroll); // Cleanup listener
+    };
+  }, []);
+
   return (
     <>
       {/* Header */}
@@ -47,7 +65,7 @@ function Header() {
       >
         {/* Desktop Header */}
         <div
-          className={`sm:flex hidden sm:justify-between  py-4 border-b-[1px]`}
+          className={`sm:flex hidden sm:justify-between items-start  py-4 border-b-[1px]`}
         >
           {/* logo */}
           <div className="lg:w-[22%] flex items-center">
@@ -67,9 +85,19 @@ function Header() {
             className={` ${
               path.pathname === "/wishlist"
                 ? "hidden"
-                : "flex items-center justify-center"
+                : "flex flex-col items-center"
             }`}
           >
+            {isVisible && (
+              <div className="flex items-center gap-2 pb-4">
+                <button className="font-semibold px-4 py-2 rounded-full">
+                  Stays
+                </button>
+                <button className="hover:bg-gray-100 px-4 py-2 rounded-full hover:text-black text-gray-400">
+                  Experiences
+                </button>
+              </div>
+            )}
             <SearchBar device="desktop" />
           </div>
 

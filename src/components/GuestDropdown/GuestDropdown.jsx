@@ -22,7 +22,7 @@ function GuestDropdown({ guests, handleGuestChange }) {
 
   useEffect(() => {
     handleGuestChange(adultCount + childrenCount);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [adultCount, childrenCount]);
 
   // Function to handle clicks outside the dropdown
@@ -44,10 +44,7 @@ function GuestDropdown({ guests, handleGuestChange }) {
   return (
     <>
       {/* guests count */}
-      <div
-        onClick={() => setIsVisible(!isVisible)}
-        className="w-full  rounded"
-      >
+      <div onClick={() => setIsVisible(!isVisible)} className="w-full  rounded">
         <div
           htmlFor="guests"
           className="text-xs font-semibold uppercase block mb-1 absolute px-4 pt-3"

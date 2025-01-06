@@ -43,6 +43,17 @@ const RangeSlider = ({
         min={min} // Min value for the slider (price in ₹)
         max={max} // Max value for the slider (price in ₹)
         step={100} // Step size (e.g., ₹100 increments)
+        sx={{
+          "& .MuiSlider-track": {
+            backgroundColor: "#e31c5f",
+          },
+          "& .MuiSlider-rail": {
+            backgroundColor: "#f5f5f5", // Optional: Background of the slider rail
+          },
+          "& .MuiSlider-thumb": {
+            backgroundColor: "white",
+          },
+        }}
       />
     </div>
   );
