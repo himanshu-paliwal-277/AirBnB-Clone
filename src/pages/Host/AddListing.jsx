@@ -106,7 +106,7 @@ const AddListing = () => {
           </div>
           <div>
             <label className="block text-lg font-medium mb-1">
-              Price (in USD):
+              Price (in INR):
             </label>
             <input
               type="number"

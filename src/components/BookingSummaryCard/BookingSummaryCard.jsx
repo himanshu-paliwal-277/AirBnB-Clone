@@ -3,12 +3,13 @@ import tag_icon from "../../assets/icons/tag-icon.svg";
 import flag_icon from "../../assets/icons/flag.svg";
 import { useEffect, useState } from "react";
 import { formatNumberWithCommas } from "../../utils/formatNumberWithCommas";
+import GuestDropdown from "../GuestDropdown/GuestDropdown";
 
 function BookingSummaryCard({ originalPrice, discountedPrice, handleReserve }) {
   const [date1, setDate1] = useState(null);
   const [date2, setDate2] = useState(null);
   const [dateDifference, setDateDifference] = useState(5);
-  const [guests, setGuests] = useState("1");
+  const [guests, setGuests] = useState(1);
 
   useEffect(() => {
     localStorage.setItem("date1", date1);
@@ -17,8 +18,8 @@ function BookingSummaryCard({ originalPrice, discountedPrice, handleReserve }) {
     localStorage.setItem("numberOfNights", dateDifference);
   }, [date1, date2, guests, dateDifference]);
 
-  const handleGuestChange = (event) => {
-    setGuests(event.target.value);
+  const handleGuestChange = (value) => {
+    setGuests(value);
   };
 
   const calculateDateDifference = (start, end) => {
@@ -66,7 +67,7 @@ function BookingSummaryCard({ originalPrice, discountedPrice, handleReserve }) {
             <span className="text-gray-500">night</span>
           </div>
 
-          <div className="border border-gray-500 rounded-lg overflow-hidden">
+          <div className="border border-gray-500 rounded-lg overflow-hidden ">
             <div className="grid grid-cols-2 border-b border-gray-500">
               <div className="p-3 border-r border-gray-500">
                 <div className="text-xs font-semibold uppercase">CHECK-IN</div>
@@ -84,7 +85,7 @@ function BookingSummaryCard({ originalPrice, discountedPrice, handleReserve }) {
               </div>
             </div>
 
-            <div className="w-full focus:border focus:border-gray-500 rounded">
+            {/* <div className="w-full focus:border focus:border-gray-500 rounded">
               <label
                 htmlFor="guests"
                 className="text-xs font-semibold uppercase block mb-1 absolute px-4 pt-3"
@@ -102,7 +103,8 @@ function BookingSummaryCard({ originalPrice, discountedPrice, handleReserve }) {
                 <option value="3">3 guests</option>
                 <option value="4">4 guests</option>
               </select>
-            </div>
+            </div> */}
+            <GuestDropdown guests={guests} handleGuestChange={handleGuestChange} />
           </div>
 
           <button
